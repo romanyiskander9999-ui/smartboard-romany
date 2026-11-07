@@ -1,0 +1,36 @@
+name: Build Windows installer
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm install
+      - name: Build NSIS installer and portable app
+        run: npm run dist:win
+      - name: Upload Windows builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: smartboard-windows-${{ github.ref_name }}
+          path: |
+            dist/*.exe
+            dist/*.blockmap
+          if-no-files-found: error
+          retention-days: 30
