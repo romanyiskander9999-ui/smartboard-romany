@@ -6,9 +6,9 @@
   "main": "electron/main.cjs",
   "scripts": {
     "start": "electron .",
-    "dist:win": "electron-builder --win nsis portable",
-    "dist:win:nsis": "electron-builder --win nsis",
-    "dist:win:portable": "electron-builder --win portable"
+    "dist:win": "electron-builder --win nsis portable --publish never",
+    "dist:win:nsis": "electron-builder --win nsis --publish never",
+    "dist:win:portable": "electron-builder --win portable --publish never"
   },
   "devDependencies": {
     "electron": "^39.0.0",
@@ -18,16 +18,34 @@
     "appId": "com.alyanboa.smartboard",
     "productName": "السبورة الذكية",
     "asar": true,
-    "directories": { "output": "dist" },
+    "directories": {
+      "output": "dist"
+    },
     "files": [
-      "index.html", "learning-labs.html", "manifest.webmanifest", "sw.js",
-      "supabase-client.js", "supabase-config.js", "supabase-config.example.js",
-      "electron/**/*", "package.json"
+      "index.html",
+      "learning-labs.html",
+      "manifest.webmanifest",
+      "sw.js",
+      "supabase-client.js",
+      "supabase-config.js",
+      "supabase-config.example.js",
+      "electron/**/*",
+      "package.json"
     ],
     "win": {
       "target": [
-        { "target": "nsis", "arch": ["x64"] },
-        { "target": "portable", "arch": ["x64"] }
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
       "artifactName": "Smartboard-Setup-${version}-${arch}.${ext}"
     },
@@ -40,6 +58,8 @@
       "shortcutName": "السبورة الذكية",
       "deleteAppDataOnUninstall": false
     },
-    "portable": { "artifactName": "Smartboard-Portable-${version}-${arch}.${ext}" }
+    "portable": {
+      "artifactName": "Smartboard-Portable-${version}-${arch}.${ext}"
+    }
   }
 }
