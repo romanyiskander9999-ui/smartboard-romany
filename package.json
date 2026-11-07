@@ -1,6 +1,6 @@
 {
   "name": "smartboard-romany",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "description": "Arabic-first interactive classroom whiteboard",
   "main": "electron/main.cjs",
