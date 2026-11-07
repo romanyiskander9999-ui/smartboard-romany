@@ -41,7 +41,7 @@ function startLocalServer() {
       });
     });
     localServer.once("error", reject);
-    localServer.listen(0, "127.0.0.1", () => {
+    localServer.listen(41737, "127.0.0.1", () => {
       localOrigin = "http://127.0.0.1:" + localServer.address().port;
       resolve(localOrigin);
     });
@@ -57,13 +57,13 @@ function createWindow() {
   });
   win.once("ready-to-show", () => win.show());
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (/^https?:\\/\\//i.test(url)) shell.openExternal(url);
+    if (/^https?:\/\//i.test(url)) shell.openExternal(url);
     return { action: "deny" };
   });
   win.webContents.on("will-navigate", (event, url) => {
-    if (!url.startsWith(localOrigin)) {
+    if (new URL(url).origin !== localOrigin) {
       event.preventDefault();
-      if (/^https?:\\/\\//i.test(url)) shell.openExternal(url);
+      if (/^https?:\/\//i.test(url)) shell.openExternal(url);
     }
   });
   win.loadURL(localOrigin);
