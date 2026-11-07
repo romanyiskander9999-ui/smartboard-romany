@@ -1,4 +1,4 @@
-const CACHE='smartboard-static-v5';
+const CACHE='smartboard-static-v6';
 const CORE=['/','/index.html','/learning-labs.html','/manifest.webmanifest','/supabase-client.js','/supabase-config.example.js','/supabase-config.js'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
