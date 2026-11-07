@@ -1,0 +1,45 @@
+{
+  "name": "smartboard-romany",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Arabic-first interactive classroom whiteboard",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win nsis portable",
+    "dist:win:nsis": "electron-builder --win nsis",
+    "dist:win:portable": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.alyanboa.smartboard",
+    "productName": "السبورة الذكية",
+    "asar": true,
+    "directories": { "output": "dist" },
+    "files": [
+      "index.html", "learning-labs.html", "manifest.webmanifest", "sw.js",
+      "supabase-client.js", "supabase-config.js", "supabase-config.example.js",
+      "electron/**/*", "package.json"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "artifactName": "Smartboard-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "السبورة الذكية",
+      "deleteAppDataOnUninstall": false
+    },
+    "portable": { "artifactName": "Smartboard-Portable-${version}-${arch}.${ext}" }
+  }
+}
