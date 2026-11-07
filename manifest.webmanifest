@@ -1,0 +1,12 @@
+{
+  "name": "السبورة الذكية",
+  "short_name": "السبورة",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eef2f8",
+  "theme_color": "#172554",
+  "description": "سبورة تعليمية عربية لإدارة الدروس والاختبارات والفصول",
+  "icons": []
+}
