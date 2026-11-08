@@ -49,6 +49,90 @@ input,select,textarea{border-color:#d5deeb;border-radius:11px;padding:11px}
 @media(max-width:480px){.nav{grid-template-columns:repeat(2,minmax(0,1fr))}.tools{gap:5px}.tools button{padding:8px;font-size:12px}#pad{min-height:240px}}
 #spotlightOverlay{display:none;position:absolute;inset:10px;z-index:5;pointer-events:none;background:radial-gradient(circle 115px at 50% 50%,transparent 0 98px,rgba(8,18,42,.88) 125px);border-radius:8px}#curtainOverlay{display:none;position:absolute;inset:10px;z-index:6;pointer-events:none;background:linear-gradient(135deg,rgba(15,23,42,.96),rgba(30,58,138,.94));clip-path:inset(0 0 0 0);color:white;align-items:center;justify-content:center;text-align:center;font-size:clamp(16px,3vw,28px);font-weight:800;text-shadow:0 2px 10px #000;padding:20px}#classroomEffects .row{align-items:end}#classroomEffects label{min-width:130px}#boardTimerDisplay{min-width:100px;font-variant-numeric:tabular-nums}@media(max-width:600px){#classroomEffects .row>*{flex:1 1 42%}#classroomEffects label{min-width:0}}\n.cheer-toast{position:fixed;z-index:100001;inset:20% 0 auto;text-align:center;pointer-events:none;font-size:clamp(42px,9vw,100px);font-weight:900;color:#1d4ed8;text-shadow:0 5px 18px #1e40af35;animation:cheerPop 1.8s ease both}
 @keyframes cheerPop{0%{opacity:0;transform:translateY(25px) scale(.55)}18%,75%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-28px) scale(1.08)}}
+
+/* تحسين شامل لشاشات الهاتف واللوحيات */
+@media (max-width:800px){
+  html,body{width:100%;max-width:100%;overflow-x:hidden}
+  .top{position:sticky;top:0;z-index:300;padding:10px 12px;gap:8px;min-height:60px}
+  .brand{font-size:17px}
+  .sub{font-size:11px;line-height:1.45}
+  .top>.badge{font-size:10px;padding:4px 7px}
+  .layout{display:flex;flex-direction:column;width:100%;min-height:calc(100dvh - 60px)}
+  aside{position:sticky;top:60px;z-index:250;width:100%;height:auto;max-height:none;overflow:visible;padding:7px 8px;background:#f8faff;border-bottom:1px solid #dbe5f2;box-shadow:0 4px 12px #17255410}
+  aside>.nav{display:flex;flex-wrap:nowrap;gap:7px;overflow-x:auto;overflow-y:hidden;padding:2px 1px 7px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+  aside>.nav button{flex:0 0 auto;min-width:max-content;min-height:42px;padding:9px 13px;font-size:12px;white-space:nowrap;scroll-snap-align:start}
+  aside>.panel{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:5px 0 0!important;padding:8px 10px;border-radius:11px}
+  aside>.panel>b{font-size:12px}
+  aside>.panel p{margin:0;flex:1 1 100%;font-size:11px}
+  aside>.panel>.btn,aside>.panel>label.btn{flex:1 1 125px!important;margin:0!important;text-align:center;padding:9px 7px;font-size:12px}
+  main{width:100%;min-width:0;padding:10px;overflow:hidden}
+  .view{width:100%;min-width:0}
+  .head{align-items:flex-start;gap:8px;margin-bottom:12px}
+  .head h1{font-size:19px;line-height:1.5}
+  .head>.btn{flex:0 0 auto;max-width:48%;font-size:12px;padding:9px}
+  .panel{padding:11px;margin-bottom:11px;border-radius:13px}
+  .row{gap:7px}
+  .row>*{min-width:0}
+  .formgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .students{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .tools{gap:6px;padding:7px}
+  .tools button,.btn{min-height:40px;max-width:100%;font-size:13px}
+  #boardTools.tools{display:flex;flex-wrap:wrap;gap:6px;padding:7px}
+  #boardTools button{flex:1 1 calc(33.333% - 6px);min-width:78px;min-height:43px;padding:8px 5px;font-size:12px;white-space:normal}
+  .board-toolbar-shell{padding:9px;border-radius:13px}
+  .board-toolbar-title{gap:4px;margin-bottom:7px}
+  .board-toolbar-title strong{font-size:14px}
+  .board-toolbar-title span{font-size:11px;line-height:1.5}
+  .selection-tools{gap:6px;padding:8px}
+  .selection-tools>b,.selection-tools .muted{flex:1 1 100%;font-size:11px}
+  .selection-tools .btn{flex:1 1 28%;min-width:65px}
+  .canvas-wrap{width:100%;max-width:100%;min-height:230px;max-height:65dvh;padding:6px;border-radius:10px;overflow:auto;overscroll-behavior:contain}
+  #pad{display:block;width:100%;height:auto;min-height:220px;max-width:none;touch-action:none}
+  .match-board{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .match-card{min-height:68px;padding:9px;font-size:13px}
+  .category-board{grid-template-columns:1fr;gap:8px}
+  .category-column{min-height:95px}
+  input,select,textarea{min-width:0;max-width:100%;font-size:16px;padding:10px}
+  input[type=range]{padding:0}
+  input[type=color]{min-height:42px}
+  .item{padding:9px}
+  table{max-width:100%}
+}
+@media(max-width:520px){
+  .top{align-items:flex-start}
+  .top>.badge{max-width:125px;text-align:center;line-height:1.4}
+  aside{top:58px}
+  .formgrid,.grid{grid-template-columns:1fr}
+  .students{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .head{flex-wrap:wrap}
+  .head>.btn{max-width:none}
+  .row>label{flex:1 1 100%;min-width:0}
+  .row>.btn{flex:1 1 calc(50% - 7px)}
+  #board .row{align-items:stretch}
+  #board .row>label{flex:1 1 calc(50% - 7px)}
+  #board .row>.btn{flex:1 1 calc(50% - 7px)}
+  #boardTools button{flex:1 1 calc(33.333% - 6px);min-width:0;font-size:11px;padding:8px 3px}
+  .canvas-wrap{min-height:200px;max-height:58dvh}
+  #pad{min-height:200px}
+  .stat b{font-size:20px}
+  .footer{padding:14px 8px}
+  .lesson,.item{overflow-wrap:anywhere}
+  .controls{display:flex;flex-wrap:wrap;gap:5px}
+  .controls .btn{flex:1 1 auto}
+}
+@media(max-width:360px){
+  .brand{font-size:15px}
+  .sub{font-size:10px}
+  aside>.nav button{padding:8px 10px;font-size:11px}
+  #boardTools button{flex-basis:calc(50% - 6px)}
+  .students{grid-template-columns:1fr}
+}
+@media(hover:none){
+  .btn:hover,.nav button:hover,#boardTools button:hover{transform:none;filter:none}
+  button,.btn,label.btn{touch-action:manipulation}
+}
+
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script><script src="/supabase-client.js"></script>
 </head>
