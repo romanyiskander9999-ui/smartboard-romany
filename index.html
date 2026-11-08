@@ -269,7 +269,18 @@ input,select,textarea{border-color:#d5deeb;border-radius:11px;padding:11px}
 </div>
 <div class="class-roster-filter"><input id="classRosterSearch" type="search" placeholder="ابحث باسم الطالب أو الصف أو الفصل..." aria-label="البحث في قائمة الطلاب"><button class="btn" id="clearClassRosterSearch" type="button">مسح البحث</button></div>
 <div class="muted" id="classRosterSearchStatus">يمكنك البحث داخل سجل الطلاب أدناه.</div>
-</div><div><h1>إدارة الفصل</h1><div class="muted">قائمة الطلاب وتقسيم المجموعات ونقاط التنافس</div></div></div><div class="panel stack"><div class="grid"><label>اسم الطالب<input id="studentInput" placeholder="اسم الطالب"></label><label>الصف<select id="studentGrade"><option value="">غير محدد</option><option>الأول</option><option>الثاني</option><option>الثالث</option><option>الرابع</option><option>الخامس</option><option>السادس</option></select></label><label>الفصل<input id="studentSection" placeholder="مثال: 4/أ"></label></div><div class="row"><button class="btn primary" id="addStudent">إضافة طالب</button><button class="btn" id="exportRoster">تصدير كشف الطلاب CSV</button><label class="btn" for="importRoster">استيراد كشف CSV</label><input id="importRoster" type="file" accept=".csv,text/csv" style="display:none"></div><div class="muted">يمكن إدخال اسم الطالب والصف والفصل، أو استيراد كشف CSV بترتيب الأعمدة: اسم الطالب، الصف، الفصل.</div><div class="panel" style="background:#f8fbff"><b>سجل الطلاب المسجلين</b><div id="rosterList" class="stack" style="margin-top:8px"></div></div><div class="panel attendance-panel" id="attendancePanel">
+</div><div><h1>إدارة الفصل</h1><div class="muted">قائمة الطلاب وتقسيم المجموعات ونقاط التنافس</div></div></div><div class="panel stack"><div class="grid"><label>اسم الطالب<input id="studentInput" placeholder="اسم الطالب"></label><label>الصف<select id="studentGrade"><option value="">غير محدد</option><option>الأول</option><option>الثاني</option><option>الثالث</option><option>الرابع</option><option>الخامس</option><option>السادس</option></select></label><label>الفصل<input id="studentSection" placeholder="مثال: 4/أ"></label></div><div class="row"><button class="btn primary" id="addStudent">إضافة طالب</button><button class="btn" id="exportRoster">تصدير كشف الطلاب CSV</button><label class="btn" for="importRoster">استيراد كشف CSV</label><input id="importRoster" type="file" accept=".csv,text/csv" style="display:none"></div><div class="muted">يمكن إدخال اسم الطالب والصف والفصل، أو استيراد كشف CSV بترتيب الأعمدة: اسم الطالب، الصف، الفصل.</div><div class="panel" style="background:#f8fbff"><b>سجل الطلاب المسجلين</b><div id="rosterList" class="stack" style="margin-top:8px"></div></div>
+<div class="panel stack" id="cloudClassroomPanel" style="margin-top:12px;border:1px solid #bfdbfe;background:#f8fbff">
+ <div class="row" style="justify-content:space-between;align-items:center"><b>☁️ الفصول والمزامنة السحابية</b><span class="badge">اختياري</span></div>
+ <p class="muted">سجّل دخولك بحساب المعلم، ثم أنشئ فصلًا أو اختر فصلًا موجودًا. لا تنتقل أي بيانات تلقائيًا؛ استخدم أزرار المزامنة الصريحة.</p>
+ <div class="grid"><label>البريد الإلكتروني<input id="cloudTeacherEmail" type="email" autocomplete="username" placeholder="teacher@example.com"></label><label>كلمة المرور<input id="cloudTeacherPassword" type="password" autocomplete="current-password" placeholder="كلمة المرور"></label></div>
+ <div class="row"><button class="btn primary" id="cloudTeacherSignIn" type="button">دخول المعلم</button><button class="btn" id="cloudTeacherSignUp" type="button">إنشاء حساب</button><button class="btn" id="cloudTeacherSignOut" type="button">تسجيل الخروج</button></div>
+ <div class="grid"><label>اسم الفصل السحابي<input id="cloudClassName" placeholder="مثال: الصف الرابع / أ"></label><label>الصف<select id="cloudClassGrade"><option value="">غير محدد</option><option>الأول</option><option>الثاني</option><option>الثالث</option><option>الرابع</option><option>الخامس</option><option>السادس</option></select></label></div>
+ <div class="row"><button class="btn" id="cloudCreateClass" type="button">إنشاء فصل سحابي</button><label style="flex:1;min-width:180px">الفصل المحدد<select id="cloudClassSelect"><option value="">سجّل الدخول لتحميل الفصول</option></select></label><button class="btn" id="cloudRefreshClasses" type="button">تحديث الفصول</button></div>
+ <div class="row"><button class="btn primary" id="cloudUploadRoster" type="button">رفع قائمة الطلاب للسحابة</button><button class="btn" id="cloudDownloadRoster" type="button">استيراد طلاب الفصل من السحابة</button><button class="btn" id="cloudUploadAttendance" type="button">رفع حضور التاريخ المحدد</button></div>
+ <div class="muted" id="cloudClassroomStatus" role="status" aria-live="polite">لم يتم الاتصال بعد. يلزم إعداد Supabase وتطبيق ترحيلات قاعدة البيانات.</div>
+</div>
+<div class="panel attendance-panel" id="attendancePanel">
 <div class="row attendance-heading"><div><b>📅 سجل الحضور والغياب اليومي</b><div class="muted">سجل مستقل عن درجات الاختبارات</div></div><span class="badge" id="attendanceDayCount">0 طالب</span></div>
 <div class="row attendance-controls"><label>تاريخ الحضور<input id="attendanceDate" type="date"></label><button class="btn" id="attendanceAllPresent" type="button">تسجيل الكل حاضر</button><button class="btn" id="attendanceAllAbsent" type="button">تسجيل الكل غائب</button></div>
 <div class="row attendance-controls"><label>تصفية القائمة<select id="attendanceFilter"><option value="all">كل الطلاب</option><option value="present">الحاضرون</option><option value="absent">الغائبون</option><option value="late">المتأخرون</option><option value="excused">غياب بعذر</option><option value="unset">لم يسجل</option></select></label><button class="btn primary" id="saveAttendance" type="button">حفظ سجل اليوم</button></div>
@@ -806,6 +817,78 @@ $('cancelActivityEdit').onclick=cancelActivityEdit;
 function saveActivityToLesson(){const li=$('activityLesson').value;if(li===''){alert('أنشئ درسًا أولًا ثم اختره من القائمة.');return}const lesson=db.lessons[+li];if(!lesson)return;lesson.activities=Array.isArray(lesson.activities)?lesson.activities:[];let activity;if($('activityKind').value==='match'){const pairs=$('matchPairs').value.split(String.fromCharCode(10)).map(x=>x.trim()).filter(Boolean).map(line=>line.split('|').map(x=>x.trim())).filter(p=>p.length===2&&p[0]&&p[1]);if(pairs.length<2){alert('أدخل زوجين صحيحين على الأقل قبل الحفظ.');return}activity={type:'match',title:'نشاط التوصيل والمطابقة',pairs}}else{const categories=$('sortCategories').value.split('|').map(x=>x.trim()).filter(Boolean);const items=$('sortItems').value.split(String.fromCharCode(10)).map(x=>x.trim()).filter(Boolean).map(line=>line.split('|').map(x=>x.trim())).filter(p=>p.length===2&&p[0]&&p[1]);if(categories.length<2||items.length<2||items.some(p=>!categories.includes(p[1]))){alert('راجع التصنيفات والعناصر قبل الحفظ.');return}activity={type:'sort',title:'نشاط السحب والتصنيف',categories,items}}activity.savedAt=new Date().toISOString();if(editingActivity){const target=db.lessons[editingActivity.lessonIndex];const index=target&&target.activities?target.activities.findIndex(x=>x.id===editingActivity.activityId):-1;if(index<0){alert('تعذر العثور على النشاط الأصلي. أعد فتحه من الدرس.');cancelActivityEdit();return}activity.id=editingActivity.activityId;target.activities[index]=activity;const title=target.title;cancelActivityEdit();persist();$('activitySaveStatus').textContent='تم تحديث النشاط داخل درس: '+title}else{activity.id='act-'+Date.now();lesson.activities.push(activity);persist();$('activitySaveStatus').textContent='تم حفظ النشاط داخل درس: '+lesson.title}}
 $('saveActivityToLesson').onclick=saveActivityToLesson;
 function openLessonActivity(lessonIndex,activityIndex){const lesson=db.lessons[lessonIndex],a=lesson&&lesson.activities&&lesson.activities[activityIndex];if(!a)return;editingActivity={lessonIndex,activityId:a.id||('legacy-'+activityIndex)};if(!a.id)a.id=editingActivity.activityId;$('activityLesson').value=String(lessonIndex);$('activityKind').value=a.type;$('cancelActivityEdit').style.display='inline-flex';$('saveActivityToLesson').textContent='حفظ التعديلات';if(a.type==='match'){$('matchPairs').value=a.pairs.map(p=>p.join(' | ')).join(String.fromCharCode(10));document.querySelector('[data-view="activity"]').click();createMatchActivity()}else if(a.type==='sort'){$('sortCategories').value=a.categories.join(' | ');$('sortItems').value=a.items.map(p=>p.join(' | ')).join(String.fromCharCode(10));document.querySelector('[data-view="activity"]').click();createSortActivity()}$('activitySaveStatus').textContent='وضع التعديل: عدّل البيانات ثم اضغط «حفظ التعديلات». درس: '+lesson.title}
+
+// إدارة الفصول السحابية: كل عملية نقل بيانات تحتاج ضغطًا صريحًا من المعلم.
+(function initCloudClassroomUI(){
+ const $c=id=>document.getElementById(id);
+ const status=$c('cloudClassroomStatus');
+ let selectedClassId='';
+ let cloudRoster=[];
+ const say=message=>{if(status)status.textContent=message};
+ const cloud=()=>window.SmartboardCloud;
+ const requireCloud=()=>{if(!cloud()||!cloud().configured())throw new Error('إعداد Supabase غير مكتمل. أضف Project URL والمفتاح العام أولًا.');return cloud()};
+ const withBusy=async(button,work)=>{if(button)button.disabled=true;try{await work()}catch(error){say('تعذر تنفيذ العملية: '+(error.message||'خطأ غير معروف'));console.error('Cloud classroom:',error)}finally{if(button)button.disabled=false}};
+ async function refreshClasses(){
+  const api=requireCloud(),result=await api.listMyClasses(),select=$c('cloudClassSelect');
+  const classes=result.owned||[];
+  select.innerHTML='<option value="">اختر فصلًا...</option>'+classes.map(x=>'<option value="'+String(x.id).replace(/"/g,'&quot;')+'">'+String(x.name||'فصل').replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]))+(x.grade?' — '+x.grade:'')+'</option>').join('');
+  if(selectedClassId&&classes.some(x=>x.id===selectedClassId))select.value=selectedClassId;
+  else selectedClassId='';
+  say('تم تحميل '+classes.length+' فصلًا سحابيًا. اختر الفصل المطلوب.');
+ }
+ $c('cloudTeacherSignIn')?.addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+  const email=$c('cloudTeacherEmail').value.trim(),password=$c('cloudTeacherPassword').value;
+  if(!email||!password)throw new Error('أدخل البريد الإلكتروني وكلمة المرور.');
+  await requireCloud().signIn(email,password);await refreshClasses();say('تم تسجيل الدخول. اختر فصلًا أو أنشئ فصلًا جديدًا.');
+ }));
+ $c('cloudTeacherSignUp')?.addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+  const email=$c('cloudTeacherEmail').value.trim(),password=$c('cloudTeacherPassword').value;
+  if(!email||password.length<8)throw new Error('أدخل بريدًا صحيحًا وكلمة مرور لا تقل عن 8 أحرف.');
+  const result=await requireCloud().signUp(email,password,$c('teacherName')?.value||'');
+  say(result.user&&!result.session?'تم إنشاء الحساب. تحقق من بريدك الإلكتروني لتأكيده ثم سجّل الدخول.':'تم إنشاء الحساب وتسجيل الدخول.');
+ }));
+ $c('cloudTeacherSignOut')?.addEventListener('click',e=>withBusy(e.currentTarget,async()=>{await requireCloud().signOut();selectedClassId='';cloudRoster=[];$c('cloudClassSelect').innerHTML='<option value="">سجّل الدخول لتحميل الفصول</option>';say('تم تسجيل الخروج. بقيت البيانات المحلية كما هي.')}));
+ $c('cloudRefreshClasses')?.addEventListener('click',e=>withBusy(e.currentTarget,refreshClasses));
+ $c('cloudCreateClass')?.addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+  const name=$c('cloudClassName').value.trim();if(!name)throw new Error('اكتب اسم الفصل.');
+  const created=await requireCloud().createClassroom({name,grade:$c('cloudClassGrade').value});
+  selectedClassId=created.id;await refreshClasses();$c('cloudClassSelect').value=selectedClassId;say('تم إنشاء الفصل السحابي: '+name+'. يمكنك الآن رفع قائمة الطلاب.');
+ }));
+ $c('cloudClassSelect')?.addEventListener('change',e=>{selectedClassId=e.target.value;cloudRoster=[];say(selectedClassId?'تم اختيار الفصل. اختر عملية المزامنة المطلوبة.':'لم يتم اختيار فصل.')});
+ $c('cloudUploadRoster')?.addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+  if(!selectedClassId)throw new Error('اختر فصلًا سحابيًا أولًا.');
+  if(!db.students.length)throw new Error('قائمة الطلاب المحلية فارغة.');
+  const rows=db.students.map(name=>({name,grade:db.studentMeta[name]?.grade||'',section:db.studentMeta[name]?.section||''}));
+  await requireCloud().saveClassroomRoster(selectedClassId,rows);
+  cloudRoster=await requireCloud().listClassroomRoster(selectedClassId);
+  say('تم رفع/تحديث '+rows.length+' طالبًا في الفصل السحابي. لم تُحذف أي بيانات محلية.');
+ }));
+ $c('cloudDownloadRoster')?.addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+  if(!selectedClassId)throw new Error('اختر فصلًا سحابيًا أولًا.');
+  const rows=await requireCloud().listClassroomRoster(selectedClassId);
+  if(!rows.length)throw new Error('لا توجد أسماء طلاب في هذا الفصل السحابي.');
+  let added=0,updated=0;
+  rows.forEach(row=>{
+   const name=String(row.student_name||'').trim();if(!name)return;
+   if(!db.students.includes(name)){db.students.push(name);added++}else updated++;
+   db.studentMeta[name]={...(db.studentMeta[name]||{}),grade:row.grade||'',section:row.section||''};
+  });
+  persist();renderAll();say('تم استيراد '+rows.length+' سجلًا من السحابة (جديد: '+added+'، موجود مسبقًا: '+updated+'). لم تُحذف سجلات محلية.');
+ }));
+ $c('cloudUploadAttendance')?.addEventListener('click',e=>withBusy(e.currentTarget,async()=>{
+  if(!selectedClassId)throw new Error('اختر فصلًا سحابيًا أولًا.');
+  const date=$c('attendanceDate')?.value;if(!date)throw new Error('اختر تاريخ الحضور.');
+  const api=requireCloud();cloudRoster=await api.listClassroomRoster(selectedClassId);
+  const byName=new Map(cloudRoster.map(x=>[x.student_name,x]));
+  const localRecords=db.attendance?.[date]||{};
+  const records=Object.entries(localRecords).map(([name,status])=>({roster_id:byName.get(name)?.id,status})).filter(x=>x.roster_id&&['present','absent','late','excused'].includes(x.status));
+  if(!records.length)throw new Error('لا توجد سجلات حضور مطابقة لطلاب الفصل السحابي. ارفع قائمة الطلاب أولًا.');
+  await api.saveClassroomAttendance(selectedClassId,date,records);
+  say('تم رفع '+records.length+' سجل حضور بتاريخ '+date+' إلى الفصل السحابي.');
+ }));
+ if(!cloud()||!cloud().configured())say('Supabase غير مهيأ بعد. أدخل بيانات المشروع في supabase-config.js بعد إنشاء المشروع وتطبيق ملفات الترحيل.');
+})();
+
 renderAll();
 const cloud=$('cloudStatus');if(cloud){cloud.textContent=window.SmartboardCloud&&window.SmartboardCloud.configured()?'تم إدخال إعدادات Supabase. يلزم تطبيق ترحيلات قاعدة البيانات واختبار تسجيل الدخول.':'بانتظار إنشاء مشروع Supabase وإضافة عنوان المشروع والمفتاح العام.'}
 const net=$('networkStatus');function netState(){if(net){net.textContent=navigator.onLine?'متصل بالإنترنت':'غير متصل – وضع محلي';net.style.background=navigator.onLine?'#dcfce7':'#fef3c7';net.style.color=navigator.onLine?'#166534':'#92400e'}}window.addEventListener('online',netState);window.addEventListener('offline',netState);netState();
