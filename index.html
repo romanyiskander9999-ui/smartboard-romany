@@ -152,12 +152,12 @@ $('openCalc').onclick=()=>{$('calcModal').style.display='flex';$('calcDisplay').
 
 // أدوات العرض الصفي: كشاف، ستارة كشف، مؤقت، ملصقات وأصوات مولدة محلياً
 let spotlightOn=false,curtainOn=false,boardTimerHandle=null,boardTimerRemaining=180,audioCtx=null;
-const boardWrap=$('boardCanvasWrap'),spotlight=$('spotlightOverlay'),curtain=$('curtainOverlay');
+const effectsBoardWrap=$('boardCanvasWrap'),spotlight=$('spotlightOverlay'),curtain=$('curtainOverlay');
 function boardEffectStatus(message){$('effectsStatus').textContent=message}
 function updateBoardTimer(){const m=Math.floor(boardTimerRemaining/60),sec=boardTimerRemaining%60;$('boardTimerDisplay').textContent=String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0')}
 function stopBoardTimer(){if(boardTimerHandle){clearInterval(boardTimerHandle);boardTimerHandle=null}}
 $('spotlightToggle').onclick=()=>{spotlightOn=!spotlightOn;spotlight.style.display=spotlightOn?'block':'none';$('spotlightToggle').textContent=spotlightOn?'إيقاف الكشاف':'🔦 تشغيل الكشاف';boardEffectStatus(spotlightOn?'حرّك المؤشر فوق السبورة لتسليط الضوء':'تم إيقاف الكشاف')};
-boardWrap.addEventListener('pointermove',e=>{if(!spotlightOn)return;const r=boardWrap.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;spotlight.style.background='radial-gradient(circle 115px at '+x+'px '+y+'px, transparent 0 96px, rgba(8,18,42,.9) 126px)'});
+effectsBoardWrap.addEventListener('pointermove',e=>{if(!spotlightOn)return;const r=boardWrap.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;spotlight.style.background='radial-gradient(circle 115px at '+x+'px '+y+'px, transparent 0 96px, rgba(8,18,42,.9) 126px)'});
 $('curtainToggle').onclick=()=>{curtainOn=!curtainOn;curtain.style.display=curtainOn?'flex':'none';$('curtainToggle').textContent=curtainOn?'إخفاء الستارة':'🎭 إظهار الستارة';$('curtainReveal').disabled=!curtainOn;boardEffectStatus(curtainOn?'حرّك شريط الكشف لإظهار محتوى الدرس تدريجياً':'تم إغلاق الستارة')};
 $('curtainReveal').disabled=true;$('curtainReveal').oninput=e=>{const n=Number(e.target.value);curtain.style.clipPath='inset(0 0 0 '+n+'%)';curtain.style.justifyContent=n>55?'flex-start':'center'};
 $('boardTimerMinutes').onchange=()=>{const n=Math.max(1,Math.min(180,Number($('boardTimerMinutes').value)||3));$('boardTimerMinutes').value=n;boardTimerRemaining=n*60;updateBoardTimer()};
