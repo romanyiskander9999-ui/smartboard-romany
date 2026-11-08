@@ -32,6 +32,32 @@
   ]);
   if(e1)throw e1;if(e2)throw e2;return {owned:owned||[],joined:(joined||[]).map(x=>x.classroom).filter(Boolean)};
  }
+ async function listClassroomRoster(classroomId,{includeInactive=false}={}){
+  let q=init().from('classroom_roster').select('id,classroom_id,student_name,grade,section,active,created_at').eq('classroom_id',classroomId).order('student_name');
+  if(!includeInactive)q=q.eq('active',true);
+  const {data,error}=await q;if(error)throw error;return data||[];
+ }
+ async function saveClassroomRoster(classroomId,students){
+  if(!Array.isArray(students))throw new Error('قائمة الطلاب غير صالحة');
+  const rows=students.map(x=>({classroom_id:classroomId,student_name:String(x.name||'').trim(),grade:String(x.grade||''),section:String(x.section||''),active:x.active!==false})).filter(x=>x.student_name);
+  if(!rows.length)return [];
+  const {data,error}=await init().from('classroom_roster').upsert(rows,{onConflict:'classroom_id,student_name'}).select();
+  if(error)throw error;return data||[];
+ }
+ async function saveClassroomAttendance(classroomId,attendanceDate,records){
+  if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(attendanceDate))throw new Error('تاريخ الحضور غير صالح');
+  const allowed=new Set(['present','absent','late','excused']);
+  const rows=(records||[]).filter(x=>allowed.has(x.status)).map(x=>({classroom_id:classroomId,roster_id:x.roster_id,attendance_date:attendanceDate,status:x.status,note:String(x.note||'')}));
+  if(!rows.length)return [];
+  const {data,error}=await init().from('classroom_attendance').upsert(rows,{onConflict:'roster_id,attendance_date'}).select();
+  if(error)throw error;return data||[];
+ }
+ async function listClassroomAttendance(classroomId,{fromDate,toDate}={}){
+  let q=init().from('classroom_attendance').select('id,classroom_id,roster_id,attendance_date,status,note,student:classroom_roster(student_name,grade,section)').eq('classroom_id',classroomId).order('attendance_date',{ascending:false});
+  if(fromDate)q=q.gte('attendance_date',fromDate);
+  if(toDate)q=q.lte('attendance_date',toDate);
+  const {data,error}=await q;if(error)throw error;return data||[];
+ }
  async function createLesson(input){
   const c=init();
   const {data,error}=await c.from('lessons').insert({
@@ -64,5 +90,5 @@
   const {data,error}=await init().from('submissions').select('student_id,score,total,submitted_at,student:profiles(display_name)').eq('lesson_id',lessonId).order('submitted_at',{ascending:false});
   if(error)throw error;return data||[];
  }
- w.SmartboardCloud={configured,init,signUp,signIn,signOut,currentUser,createClassroom,joinClass,listMyClasses,createLesson,addQuestion,publishLesson,listLessons,submitAnswers,listResults};
+ w.SmartboardCloud={configured,init,signUp,signIn,signOut,currentUser,createClassroom,joinClass,listMyClasses,listClassroomRoster,saveClassroomRoster,saveClassroomAttendance,listClassroomAttendance,createLesson,addQuestion,publishLesson,listLessons,submitAnswers,listResults};
 })(window);
