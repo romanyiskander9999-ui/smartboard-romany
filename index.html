@@ -1040,7 +1040,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{co
   }
 
  const groups=[
-  {title:'✍️ الكتابة والتحديد',keys:['select','pen','marker','highlighter','eraser']},
+  {title:'✍️ الكتابة والتحديد',keys:['select','pen','marker','highlighter','eraser','text']},
   {title:'📐 الأشكال الهندسية',keys:['line','rect','circle','triangle','equilateral','arrow','dashed']},
   {title:'📏 القياس والهندسة',keys:['measure','ruler','protractor','geometry-edit','compass']}
  ];
@@ -1052,7 +1052,7 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{co
   group.keys.forEach(key=>{
    const btn=all.find(x=>x.dataset.tool===key);if(!btn)return;
    const label=btn.textContent.trim(),match=label.match(/^(\p{Extended_Pictographic}|▧|／|▭|◯|△|┄|↗|➜)/u);
-   const icon=match?match[0]:({select:'▧',pen:'✏️',eraser:'🧽',line:'／',rect:'▭',circle:'◯',triangle:'△',equilateral:'🔺',measure:'📏',arrow:'➜',dashed:'┄',ruler:'📏',protractor:'📐','geometry-edit':'↗',compass:'🧭'}[key]||'•');
+   const icon=match?match[0]:({select:'▧',pen:'✏️',eraser:'🧽',text:'T',line:'／',rect:'▭',circle:'◯',triangle:'△',equilateral:'🔺',measure:'📏',arrow:'➜',dashed:'┄',ruler:'📏',protractor:'📐','geometry-edit':'↗',compass:'🧭'}[key]||'•');
    const caption=label.replace(icon,'').trim()||label;
    btn.innerHTML='<span class="tool-icon" aria-hidden="true">'+icon+'</span><span>'+caption+'</span>';
    btn.title=label;btn.setAttribute('aria-label',label);buttons.appendChild(btn);
