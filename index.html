@@ -933,52 +933,68 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{co
 })();
 </script>
 <style>
-/* واجهة السبورة الكاملة: شريط أدوات جانبي ومسطح كتابة يملأ الشاشة */
-#board>.head{margin-bottom:10px}
-#board>.panel:first-of-type{display:grid;grid-template-columns:218px minmax(0,1fr);grid-template-rows:auto auto auto;gap:10px;padding:12px;min-height:calc(100dvh - 145px)}
-#board .board-toolbar-shell{grid-column:1;grid-row:1 / span 3;align-self:stretch;margin:0;padding:10px;border-radius:15px;background:#f4f7fc;border:1px solid #dce5f2}
-#board .board-toolbar-title{display:block;margin:2px 3px 9px}
-#board .board-toolbar-title strong{display:block;font-size:15px}
-#board .board-toolbar-title span{display:block;margin-top:4px;line-height:1.6}
-#boardTools.tools{display:flex;flex-direction:column;gap:6px;padding:0;border:0;background:transparent;box-shadow:none;margin:0}
-#boardTools .tool-group{border:1px solid #e0e8f3;border-radius:11px;background:#fff;padding:6px;margin-bottom:3px}
-#boardTools .tool-group-title{font-size:11px;font-weight:800;color:#64748b;padding:3px 5px 6px}
+/* تخطيط سبورة صفية: أدوات جانبية مستقلة ولوحة بيضاء واسعة */
+#board>.head{margin-bottom:8px}
+#board>.panel{display:grid;grid-template-columns:238px minmax(0,1fr);grid-template-rows:minmax(520px,calc(100dvh - 178px)) auto;gap:10px;padding:10px;min-height:0;align-items:stretch}
+#board .board-side-tools{grid-column:1;grid-row:1;min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;padding:9px;background:#f4f7fc;border:1px solid #dce5f2;border-radius:12px;overscroll-behavior:contain}
+#board .board-toolbar-shell{margin:0;padding:0;background:transparent;border:0;border-radius:0}
+#board .board-toolbar-title{display:flex;flex-direction:column;align-items:flex-start;gap:3px;margin:0 3px 9px}
+#board .board-toolbar-title strong{font-size:14px}
+#board .board-toolbar-title span{font-size:11px;line-height:1.5}
+#boardTools.tools{display:flex;flex-direction:column;gap:7px;margin:0;padding:0;border:0;background:transparent;box-shadow:none}
+#boardTools .tool-group{margin:0;padding:7px;border:1px solid #e0e8f3;border-radius:10px;background:#fff}
+#boardTools .tool-group-title{padding:2px 4px 7px;font-size:11px;font-weight:800;color:#52627a}
 #boardTools .tool-group-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
-#boardTools button[data-tool]{min-width:0;min-height:54px;padding:5px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid #e4eaf3;border-radius:9px;background:#f9fbff;font-size:10px;line-height:1.3;white-space:normal}
+#boardTools button[data-tool]{display:flex;min-width:0;min-height:57px;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:5px 2px;border:1px solid #e3eaf3;border-radius:9px;background:#f9fbff;font-size:10px;line-height:1.25;white-space:normal}
 #boardTools button[data-tool] .tool-icon{font-size:20px;line-height:1.1}
 #boardTools button[data-tool].active{background:#dceaff;border-color:#79aaf5;color:#1747a5}
-#board .canvas-wrap{grid-column:2;grid-row:1 / span 3;width:100%;height:calc(100dvh - 190px);min-height:480px;max-height:none;padding:8px;overflow:hidden;background:#eef2f8}
-#board #pad{display:block;width:100%;height:100%;min-height:0;max-width:100%;aspect-ratio:auto;object-fit:fill;border-radius:4px}
-#board #editableStickerLayer,#board #editableImageLayer,#board #editableTextLayer,#board #animatedStickerLayer{position:absolute;inset:8px;pointer-events:none}
-#board .selection-tools,#board .board-toolbar-shell~.row,#board .board-toolbar-shell~.muted{grid-column:1}
-#board .board-toolbar-shell~.selection-tools{margin:0}
-#board .board-toolbar-shell~.canvas-wrap{grid-column:2}
-#board .board-toolbar-shell~.geometry-builder{grid-column:1}
-#board .geometry-builder{max-height:45vh;overflow:auto}
+#board .board-side-tools>.row,#board .board-side-tools>.panel{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;padding:7px;border:1px solid #e2eaf5;border-radius:10px;background:#fff}
+#board .board-side-tools .row>*{flex:1 1 75px;min-width:0}
+#board .board-side-tools input,#board .board-side-tools select{min-width:0}
+#board .geometry-builder{max-height:none;overflow:visible;width:100%}
+#board .canvas-wrap{grid-column:2;grid-row:1;width:100%;height:100%;min-height:520px;max-height:none;overflow:auto;padding:0;border:1px solid #cbd8ea;border-radius:5px;background:#eef2f8}
+#board #pad{display:block;width:100%;height:100%;min-height:520px;max-width:100%;border:0;border-radius:0;box-shadow:none;touch-action:none}
+#board #editableStickerLayer,#board #editableImageLayer,#board #editableTextLayer,#board #animatedStickerLayer{position:absolute;inset:0;pointer-events:none}
+#board>.panel> :not(.board-side-tools):not(.canvas-wrap){grid-column:1/-1}
 #boardFullscreen{white-space:nowrap}
-#board .panel:fullscreen{width:100vw;height:100dvh;min-height:100dvh;margin:0;border:0;border-radius:0;padding:12px;grid-template-columns:205px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);overflow:hidden;background:#edf2f8}
-#board .panel:fullscreen .board-toolbar-shell{grid-column:1;grid-row:1 / span 2;overflow:auto}
-#board .panel:fullscreen .canvas-wrap{grid-column:2;grid-row:1 / span 2;height:calc(100dvh - 24px);min-height:0}
+#board .panel:fullscreen{width:100vw;height:100dvh;min-height:100dvh;margin:0;padding:8px;border:0;border-radius:0;grid-template-columns:238px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;gap:8px;overflow:auto;background:#edf2f8}
+#board .panel:fullscreen .board-side-tools{height:calc(100dvh - 16px);max-height:calc(100dvh - 16px)}
+#board .panel:fullscreen .canvas-wrap{height:calc(100dvh - 16px);min-height:0}
+#board .panel:fullscreen #pad{height:100%;min-height:0}
 @media(max-width:800px){
- #board>.panel:first-of-type{grid-template-columns:1fr;grid-template-rows:auto auto;min-height:0}
- #board .board-toolbar-shell{grid-column:1;grid-row:1}
+ #board>.panel{grid-template-columns:1fr;grid-template-rows:auto minmax(420px,62dvh) auto}
+ #board .board-side-tools{grid-column:1;grid-row:1;max-height:34dvh}
  #boardTools.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
- #boardTools .tool-group{margin:0}
- #board .canvas-wrap{grid-column:1;grid-row:2;height:62dvh;min-height:320px}
- #board #pad{min-height:0}
- #board .panel:fullscreen{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);padding:6px}
- #board .panel:fullscreen .board-toolbar-shell{grid-column:1;grid-row:1;max-height:28dvh;overflow:auto}
- #board .panel:fullscreen #boardTools.tools{grid-template-columns:repeat(4,minmax(0,1fr))}
- #board .panel:fullscreen .canvas-wrap{grid-column:1;grid-row:2;height:calc(72dvh - 12px);min-height:0}
+ #board .canvas-wrap{grid-column:1;grid-row:2;height:62dvh;min-height:420px}
+ #board #pad{min-height:420px}
+ #board .panel:fullscreen{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto;padding:5px}
+ #board .panel:fullscreen .board-side-tools{grid-column:1;grid-row:1;height:auto;max-height:25dvh}
+ #board .panel:fullscreen .canvas-wrap{grid-column:1;grid-row:2;height:calc(72dvh - 10px);min-height:0}
+ #board .panel:fullscreen #pad{min-height:0}
 }
-@media(max-width:480px){#boardTools .tool-group-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}#board .canvas-wrap{height:58dvh;min-height:280px}}
+@media(max-width:480px){
+ #board .board-side-tools{max-height:31dvh}
+ #boardTools .tool-group-buttons{grid-template-columns:repeat(4,minmax(0,1fr))}
+ #board .canvas-wrap{height:58dvh;min-height:360px}
+ #board #pad{min-height:360px}
+}
 </style>
 <script>
 (function(){
  const board=document.getElementById('board'),tools=document.getElementById('boardTools');
  if(!board||!tools||tools.dataset.grouped==='1')return;
+ // نقل شريط الأدوات وجميع إعداداته إلى عمود جانبي مستقل قبل مساحة الرسم
+ const panel=board.querySelector(':scope > .panel');
+ const canvas=panel&&panel.querySelector(':scope > .canvas-wrap');
+ const toolbar=panel&&panel.querySelector(':scope > .board-toolbar-shell');
+ if(panel&&canvas&&toolbar&&!panel.querySelector('.board-side-tools')){
+  const side=document.createElement('div');side.className='board-side-tools';
+  panel.insertBefore(side,toolbar);
+  let node=toolbar;
+  while(node&&node!==canvas){const next=node.nextElementSibling;side.appendChild(node);node=next;}
+ }
  const groups=[
-  {title:'✍️ الكتابة والتحديد',keys:['select','pen','eraser']},
+  {title:'✍️ الكتابة والتحديد',keys:['select','pen','marker','highlighter','eraser']},
   {title:'📐 الأشكال الهندسية',keys:['line','rect','circle','triangle','equilateral','arrow','dashed']},
   {title:'📏 القياس والهندسة',keys:['measure','ruler','protractor','geometry-edit','compass']}
  ];
@@ -998,7 +1014,6 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{co
   shell.append(heading,buttons);tools.appendChild(shell);
  });
  tools.dataset.grouped='1';
- const panel=board.querySelector('.panel');
  const fullscreen=document.createElement('button');fullscreen.type='button';fullscreen.id='boardFullscreen';fullscreen.className='btn';fullscreen.textContent='⛶ ملء الشاشة';
  const head=board.querySelector('.head');if(head)head.appendChild(fullscreen);
  fullscreen.addEventListener('click',async()=>{
