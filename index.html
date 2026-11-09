@@ -931,4 +931,80 @@ const net=$('networkStatus');function netState(){if(net){net.textContent=navigat
 
 if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{const reg=await navigator.serviceWorker.register('/sw.js?v=8',{updateViaCache:'none'});await reg.update()}catch(e){console.warn('تعذر تحديث التخزين المؤقت:',e)}})}
 })();
-</script></body></html>
+</script>
+<style>
+/* واجهة السبورة الكاملة: شريط أدوات جانبي ومسطح كتابة يملأ الشاشة */
+#board>.head{margin-bottom:10px}
+#board>.panel:first-of-type{display:grid;grid-template-columns:218px minmax(0,1fr);grid-template-rows:auto auto auto;gap:10px;padding:12px;min-height:calc(100dvh - 145px)}
+#board .board-toolbar-shell{grid-column:1;grid-row:1 / span 3;align-self:stretch;margin:0;padding:10px;border-radius:15px;background:#f4f7fc;border:1px solid #dce5f2}
+#board .board-toolbar-title{display:block;margin:2px 3px 9px}
+#board .board-toolbar-title strong{display:block;font-size:15px}
+#board .board-toolbar-title span{display:block;margin-top:4px;line-height:1.6}
+#boardTools.tools{display:flex;flex-direction:column;gap:6px;padding:0;border:0;background:transparent;box-shadow:none;margin:0}
+#boardTools .tool-group{border:1px solid #e0e8f3;border-radius:11px;background:#fff;padding:6px;margin-bottom:3px}
+#boardTools .tool-group-title{font-size:11px;font-weight:800;color:#64748b;padding:3px 5px 6px}
+#boardTools .tool-group-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+#boardTools button[data-tool]{min-width:0;min-height:54px;padding:5px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1px solid #e4eaf3;border-radius:9px;background:#f9fbff;font-size:10px;line-height:1.3;white-space:normal}
+#boardTools button[data-tool] .tool-icon{font-size:20px;line-height:1.1}
+#boardTools button[data-tool].active{background:#dceaff;border-color:#79aaf5;color:#1747a5}
+#board .canvas-wrap{grid-column:2;grid-row:1 / span 3;width:100%;height:calc(100dvh - 190px);min-height:480px;max-height:none;padding:8px;overflow:hidden;background:#eef2f8}
+#board #pad{display:block;width:100%;height:100%;min-height:0;max-width:100%;aspect-ratio:auto;object-fit:fill;border-radius:4px}
+#board #editableStickerLayer,#board #editableImageLayer,#board #editableTextLayer,#board #animatedStickerLayer{position:absolute;inset:8px;pointer-events:none}
+#board .selection-tools,#board .board-toolbar-shell~.row,#board .board-toolbar-shell~.muted{grid-column:1}
+#board .board-toolbar-shell~.selection-tools{margin:0}
+#board .board-toolbar-shell~.canvas-wrap{grid-column:2}
+#board .board-toolbar-shell~.geometry-builder{grid-column:1}
+#board .geometry-builder{max-height:45vh;overflow:auto}
+#boardFullscreen{white-space:nowrap}
+#board .panel:fullscreen{width:100vw;height:100dvh;min-height:100dvh;margin:0;border:0;border-radius:0;padding:12px;grid-template-columns:205px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);overflow:hidden;background:#edf2f8}
+#board .panel:fullscreen .board-toolbar-shell{grid-column:1;grid-row:1 / span 2;overflow:auto}
+#board .panel:fullscreen .canvas-wrap{grid-column:2;grid-row:1 / span 2;height:calc(100dvh - 24px);min-height:0}
+@media(max-width:800px){
+ #board>.panel:first-of-type{grid-template-columns:1fr;grid-template-rows:auto auto;min-height:0}
+ #board .board-toolbar-shell{grid-column:1;grid-row:1}
+ #boardTools.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+ #boardTools .tool-group{margin:0}
+ #board .canvas-wrap{grid-column:1;grid-row:2;height:62dvh;min-height:320px}
+ #board #pad{min-height:0}
+ #board .panel:fullscreen{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);padding:6px}
+ #board .panel:fullscreen .board-toolbar-shell{grid-column:1;grid-row:1;max-height:28dvh;overflow:auto}
+ #board .panel:fullscreen #boardTools.tools{grid-template-columns:repeat(4,minmax(0,1fr))}
+ #board .panel:fullscreen .canvas-wrap{grid-column:1;grid-row:2;height:calc(72dvh - 12px);min-height:0}
+}
+@media(max-width:480px){#boardTools .tool-group-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}#board .canvas-wrap{height:58dvh;min-height:280px}}
+</style>
+<script>
+(function(){
+ const board=document.getElementById('board'),tools=document.getElementById('boardTools');
+ if(!board||!tools||tools.dataset.grouped==='1')return;
+ const groups=[
+  {title:'✍️ الكتابة والتحديد',keys:['select','pen','eraser']},
+  {title:'📐 الأشكال الهندسية',keys:['line','rect','circle','triangle','equilateral','arrow','dashed']},
+  {title:'📏 القياس والهندسة',keys:['measure','ruler','protractor','geometry-edit','compass']}
+ ];
+ const all=[...tools.querySelectorAll(':scope > button[data-tool]')];
+ groups.forEach(group=>{
+  const shell=document.createElement('section');shell.className='tool-group';
+  const heading=document.createElement('div');heading.className='tool-group-title';heading.textContent=group.title;
+  const buttons=document.createElement('div');buttons.className='tool-group-buttons';
+  group.keys.forEach(key=>{
+   const btn=all.find(x=>x.dataset.tool===key);if(!btn)return;
+   const label=btn.textContent.trim(),match=label.match(/^(\p{Extended_Pictographic}|▧|／|▭|◯|△|┄|↗|➜)/u);
+   const icon=match?match[0]:({select:'▧',pen:'✏️',eraser:'🧽',line:'／',rect:'▭',circle:'◯',triangle:'△',equilateral:'🔺',measure:'📏',arrow:'➜',dashed:'┄',ruler:'📏',protractor:'📐','geometry-edit':'↗',compass:'🧭'}[key]||'•');
+   const caption=label.replace(icon,'').trim()||label;
+   btn.innerHTML='<span class="tool-icon" aria-hidden="true">'+icon+'</span><span>'+caption+'</span>';
+   btn.title=label;btn.setAttribute('aria-label',label);buttons.appendChild(btn);
+  });
+  shell.append(heading,buttons);tools.appendChild(shell);
+ });
+ tools.dataset.grouped='1';
+ const panel=board.querySelector('.panel');
+ const fullscreen=document.createElement('button');fullscreen.type='button';fullscreen.id='boardFullscreen';fullscreen.className='btn';fullscreen.textContent='⛶ ملء الشاشة';
+ const head=board.querySelector('.head');if(head)head.appendChild(fullscreen);
+ fullscreen.addEventListener('click',async()=>{
+  try{if(!document.fullscreenElement){await panel.requestFullscreen();fullscreen.textContent='⤢ إنهاء ملء الشاشة'}else{await document.exitFullscreen()}}catch(e){fullscreen.textContent='تعذر ملء الشاشة'}
+ });
+ document.addEventListener('fullscreenchange',()=>{fullscreen.textContent=document.fullscreenElement?'⤢ إنهاء ملء الشاشة':'⛶ ملء الشاشة';});
+})();
+</script>
+</body></html>
