@@ -544,32 +544,7 @@ $('printComprehensiveProfile')?.addEventListener('click',()=>{
  const p=studentProfileData(name,$('profileMonth')?.value||localDateKey().slice(0,7)),w=window.open('','_blank');if(!w){alert('اسمح بالنوافذ المنبثقة للطباعة.');return}
  const rows=p.scores.map(x=>'<tr><td>'+esc(x.dateISO||x.date||'—')+'</td><td>'+esc(x.skill||'اختبار')+'</td><td>'+esc(x.score)+' / '+esc(x.total)+'</td><td>'+(Number(x.score)/Number(x.total)*100).toFixed(1)+'%</td></tr>').join('');
  const logs=p.behaviors.map(x=>'<tr><td>'+esc(x.date)+'</td><td>'+esc(behaviorLabels[x.category]||'أخرى')+'</td><td>'+esc(behaviorLevelLabels[x.level]||'عادية')+'</td><td>'+esc(x.note)+'</td></tr>').join('');
- const html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>ملف الطالب '+esc(name)+'</title><style>body{font-family:Tahoma,Arial;padding:24px;color:#172033}table{width:100%;border-collapse:collapse;margin:12px 0 22px}th,td{border:1px solid #aaa;padding:8px;text-align:right}.stats{display:flex;flex-wrap:wrap;gap:9px}.stats span{border:1px solid #aaa;padding:9px;border-radius:7px}</style></head><body><h1>الملف الشامل لمتابعة الطالب</h1><p>الاسم: '+esc(p.name)+' · الصف: '+esc(p.grade)+' · الفصل: '+esc(p.section)+' · الشهر: '+esc(p.month)+'</p><div class="stats"><span>نسبة الحضور: '+(p.attendance===null?'لا توجد بيانات':p.attendance+'%')+'</span><span>حضور: '+p.counts.present+'</span><span>غياب: '+p.counts.absent+'</span><span>تأخير: '+p.counts.late+'</span><span>بعذر: '+p.counts.excused+'</span><span>متوسط الاختبارات: '+(p.average===null?'لا توجد بيانات':p.average.toFixed(1)+'%')+'</span><span>مستوى التحصيل: '+p.academicLevel+'</span><span>مستوى الانتظام: '+p.attendanceLevel+'</span><span>متوسط الشهر السابق: '+(p.previousAverage===null?'لا توجد بيانات':p.previousAverage.toFixed(1)+'%')+'</span><span>حضور الشهر السابق: '+(p.previousAttendance===null?'لا توجد بيانات':p.previousAttendance+'%')+'</span><span>ملاحظات: '+p.behaviors.length+'</span><span>تحتاج متابعة: '+p.followups.length+'</span></div><h2>نتائج الاختبارات</h2><table><thead><tr><th>التاريخ</th><th>الاختبار</th><th>الدرجة</th><th>النسبة</th></tr></thead><tbody>'+(rows||'<tr><td colspan="4">لا توجد نتائج</td></tr>')+'</tbody></table><h2>السلوك والمتابعة</h2><table><thead><tr><th>التاريخ</th><th>النوع</th><th>المستوى</th><th>الملاحظة</th></tr></thead><tbody>'+(logs||'<tr><td colspan="4">لا توجد ملاحظات</td></tr>')+'</tbody></table><p>هذا التقرير يعتمد على البيانات المحفوظة محليًا على هذا الجهاز.</p><button onclick="window.print()">طباعة</button><style>
-#board>.panel{grid-template-columns:184px minmax(0,1fr)}
-#board .board-side-tools{padding:6px;background:#f7f9fd}
-#board .board-toolbar-title{margin:0 2px 6px}#board .board-toolbar-title span{display:none}#board .board-toolbar-title strong{font-size:12px}
-#boardTools.tools{gap:5px}
-#boardTools .tool-category{padding:4px;margin:0;border:1px solid #e1e8f2;border-radius:10px;background:#fff}
-#boardTools .tool-category>summary,#board .side-tool-section>summary,#board .side-tool-subsection>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;min-height:36px;padding:5px 6px;font-size:11px;font-weight:800;color:#334155;border-radius:7px}
-#boardTools .tool-category>summary::-webkit-details-marker,#board .side-tool-section>summary::-webkit-details-marker,#board .side-tool-subsection>summary::-webkit-details-marker{display:none}
-#boardTools .tool-category>summary:after,#board .side-tool-section>summary:after,#board .side-tool-subsection>summary:after{content:'⌄';margin-inline-start:auto;color:#64748b}
-#boardTools .tool-category[open]>summary,#board .side-tool-section[open]>summary,#board .side-tool-subsection[open]>summary{background:#edf4ff;color:#1747a5}
-#board .category-icon{font-size:19px;line-height:1;min-width:24px;text-align:center}
-#boardTools .tool-category .tool-group-buttons{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:5px 1px 2px}
-#boardTools button[data-tool]{min-height:39px;height:39px;padding:3px;border-radius:8px;background:#f8fafc}
-#boardTools button[data-tool] .tool-icon{font-size:19px}
-#boardTools button[data-tool].active{background:#dbeafe;border-color:#60a5fa;box-shadow:inset 0 0 0 1px #bfdbfe}
-#board .side-tool-section{margin:5px 0;border:1px solid #e1e8f2;border-radius:9px;background:#fff;overflow:hidden}
-#board .side-tool-section>summary{min-height:39px}
-#board .side-tool-subsection{margin:5px 0;border:1px solid #e3eaf4;border-radius:8px;background:#fbfdff;padding:2px}
-#board .side-tool-subsection>summary{position:static;min-height:34px}
-#board .board-side-tools>.row,#board .board-side-tools>.panel{gap:4px;padding:5px}
-#board .board-side-tools .row>*{flex:1 1 65px}
-#board .panel:fullscreen{grid-template-columns:184px minmax(0,1fr)}
-@media(max-width:800px){#board>.panel{grid-template-columns:1fr;grid-template-rows:auto minmax(420px,62dvh) auto}#board .board-side-tools{max-height:27dvh}#boardTools.tools{display:flex;flex-direction:column}#boardTools .tool-category .tool-group-buttons{grid-template-columns:repeat(6,minmax(0,1fr))}}
-@media(max-width:480px){#board .board-side-tools{max-height:25dvh}#boardTools .tool-category .tool-group-buttons{grid-template-columns:repeat(7,minmax(0,1fr))}}
-</style>
-</body></html>';
+ const html='<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>ملف الطالب '+esc(name)+'</title><style>body{font-family:Tahoma,Arial;padding:24px;color:#172033}table{width:100%;border-collapse:collapse;margin:12px 0 22px}th,td{border:1px solid #aaa;padding:8px;text-align:right}.stats{display:flex;flex-wrap:wrap;gap:9px}.stats span{border:1px solid #aaa;padding:9px;border-radius:7px}</style></head><body><h1>الملف الشامل لمتابعة الطالب</h1><p>الاسم: '+esc(p.name)+' · الصف: '+esc(p.grade)+' · الفصل: '+esc(p.section)+' · الشهر: '+esc(p.month)+'</p><div class="stats"><span>نسبة الحضور: '+(p.attendance===null?'لا توجد بيانات':p.attendance+'%')+'</span><span>حضور: '+p.counts.present+'</span><span>غياب: '+p.counts.absent+'</span><span>تأخير: '+p.counts.late+'</span><span>بعذر: '+p.counts.excused+'</span><span>متوسط الاختبارات: '+(p.average===null?'لا توجد بيانات':p.average.toFixed(1)+'%')+'</span><span>مستوى التحصيل: '+p.academicLevel+'</span><span>مستوى الانتظام: '+p.attendanceLevel+'</span><span>متوسط الشهر السابق: '+(p.previousAverage===null?'لا توجد بيانات':p.previousAverage.toFixed(1)+'%')+'</span><span>حضور الشهر السابق: '+(p.previousAttendance===null?'لا توجد بيانات':p.previousAttendance+'%')+'</span><span>ملاحظات: '+p.behaviors.length+'</span><span>تحتاج متابعة: '+p.followups.length+'</span></div><h2>نتائج الاختبارات</h2><table><thead><tr><th>التاريخ</th><th>الاختبار</th><th>الدرجة</th><th>النسبة</th></tr></thead><tbody>'+(rows||'<tr><td colspan="4">لا توجد نتائج</td></tr>')+'</tbody></table><h2>السلوك والمتابعة</h2><table><thead><tr><th>التاريخ</th><th>النوع</th><th>المستوى</th><th>الملاحظة</th></tr></thead><tbody>'+(logs||'<tr><td colspan="4">لا توجد ملاحظات</td></tr>')+'</tbody></table><p>هذا التقرير يعتمد على البيانات المحفوظة محليًا على هذا الجهاز.</p><button onclick="window.print()">طباعة</button></body></html>';
  w.document.open();w.document.write(html);w.document.close();
 });
 function renderStudentReport(){const selected=$('reportStudent').value;const rows=db.scores.map((x,i)=>({...x,_index:i})).filter(x=>!selected||(x.student||'غير محدد')===selected);const valid=rows.filter(x=>Number.isFinite(Number(x.score))&&Number(x.total)>0);const pct=x=>Number(x.total)>0?Number(x.score)/Number(x.total)*100:0;const avg=valid.length?valid.reduce((s,x)=>s+pct(x),0)/valid.length:null;const best=valid.length?Math.max(...valid.map(pct)):null;const latest=valid.length?valid[valid.length-1]:null;const first=valid.length?valid[0]:null;const change=first&&latest?pct(latest)-pct(first):null;$('reportCount').textContent=valid.length;$('reportAverage').textContent=avg===null?'—':avg.toFixed(1)+'%';$('reportBest').textContent=best===null?'—':best.toFixed(1)+'%';$('reportLatest').textContent=latest?pct(latest).toFixed(1)+'%':'—';$('reportChange').textContent=change===null?'—':(change>0?'+':'')+change.toFixed(1)+' نقطة مئوية';$('reportInsight').textContent=!valid.length?'لا توجد نتائج مسجلة لهذا الاختيار.':change===null?'تم تسجيل اختبار واحد؛ ستظهر المقارنة بعد تسجيل اختبار آخر.':change>0?'هناك تحسن في النتيجة مقارنة بأول اختبار.':change<0?'النتيجة الأخيرة أقل من أول اختبار؛ راجع مستوى الإتقان والتدريب.':'النتيجة الأخيرة مساوية لنتيجة أول اختبار.';$('studentScores').innerHTML=rows.slice().reverse().map(x=>'<div class="item"><b>'+esc(x.student||'غير محدد')+'</b><div>'+esc(x.date||'—')+' — '+esc(x.score)+'/'+esc(x.total)+' ('+(Number(x.total)>0?pct(x).toFixed(1)+'%':'—')+')</div></div>').join('')||'<p class="muted">لا توجد نتائج لهذا الطالب.</p>';const skillMap={};valid.forEach(result=>(result.details||[]).forEach(d=>{const key=d.skill||'غير محدد';skillMap[key]=skillMap[key]||{right:0,total:0};skillMap[key].total++;if(d.correct)skillMap[key].right++}));const skillRows=Object.entries(skillMap).sort((a,b)=>(a[1].right/a[1].total)-(b[1].right/b[1].total));$('skillBreakdown').innerHTML=skillRows.length?skillRows.map(([name,v])=>'<div class="item"><b>'+esc(name)+'</b><div>'+v.right+' إجابة صحيحة من '+v.total+' ('+(v.right/v.total*100).toFixed(1)+'%)</div><div style="height:8px;background:#e2e8f0;border-radius:8px;overflow:hidden;margin-top:7px"><div style="height:100%;width:'+(v.right/v.total*100)+'%;background:#2563eb"></div></div></div>').join(''):'<p class="muted">لا تتوفر بيانات مهارات كافية بعد. أضف مهارة لكل سؤال، ثم نفّذ اختبارات جديدة.</p>';renderStudentProfile();}
@@ -1099,4 +1074,29 @@ const fullscreen=document.createElement('button');fullscreen.type='button';fulls
  document.addEventListener('fullscreenchange',()=>{fullscreen.textContent=document.fullscreenElement?'⤢ إنهاء ملء الشاشة':'⛶ ملء الشاشة';});
 })();
 </script>
+<style>
+#board>.panel{grid-template-columns:184px minmax(0,1fr)}
+#board .board-side-tools{padding:6px;background:#f7f9fd}
+#board .board-toolbar-title{margin:0 2px 6px}#board .board-toolbar-title span{display:none}#board .board-toolbar-title strong{font-size:12px}
+#boardTools.tools{gap:5px}
+#boardTools .tool-category{padding:4px;margin:0;border:1px solid #e1e8f2;border-radius:10px;background:#fff}
+#boardTools .tool-category>summary,#board .side-tool-section>summary,#board .side-tool-subsection>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:7px;min-height:36px;padding:5px 6px;font-size:11px;font-weight:800;color:#334155;border-radius:7px}
+#boardTools .tool-category>summary::-webkit-details-marker,#board .side-tool-section>summary::-webkit-details-marker,#board .side-tool-subsection>summary::-webkit-details-marker{display:none}
+#boardTools .tool-category>summary:after,#board .side-tool-section>summary:after,#board .side-tool-subsection>summary:after{content:'⌄';margin-inline-start:auto;color:#64748b}
+#boardTools .tool-category[open]>summary,#board .side-tool-section[open]>summary,#board .side-tool-subsection[open]>summary{background:#edf4ff;color:#1747a5}
+#board .category-icon{font-size:19px;line-height:1;min-width:24px;text-align:center}
+#boardTools .tool-category .tool-group-buttons{grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:5px 1px 2px}
+#boardTools button[data-tool]{min-height:39px;height:39px;padding:3px;border-radius:8px;background:#f8fafc}
+#boardTools button[data-tool] .tool-icon{font-size:19px}
+#boardTools button[data-tool].active{background:#dbeafe;border-color:#60a5fa;box-shadow:inset 0 0 0 1px #bfdbfe}
+#board .side-tool-section{margin:5px 0;border:1px solid #e1e8f2;border-radius:9px;background:#fff;overflow:hidden}
+#board .side-tool-section>summary{min-height:39px}
+#board .side-tool-subsection{margin:5px 0;border:1px solid #e3eaf4;border-radius:8px;background:#fbfdff;padding:2px}
+#board .side-tool-subsection>summary{position:static;min-height:34px}
+#board .board-side-tools>.row,#board .board-side-tools>.panel{gap:4px;padding:5px}
+#board .board-side-tools .row>*{flex:1 1 65px}
+#board .panel:fullscreen{grid-template-columns:184px minmax(0,1fr)}
+@media(max-width:800px){#board>.panel{grid-template-columns:1fr;grid-template-rows:auto minmax(420px,62dvh) auto}#board .board-side-tools{max-height:27dvh}#boardTools.tools{display:flex;flex-direction:column}#boardTools .tool-category .tool-group-buttons{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:480px){#board .board-side-tools{max-height:25dvh}#boardTools .tool-category .tool-group-buttons{grid-template-columns:repeat(7,minmax(0,1fr))}}
+</style>
 </body></html>
