@@ -270,7 +270,13 @@ input,select,textarea{border-color:#d5deeb;border-radius:11px;padding:11px}
 <div class="class-roster-filter"><input id="classRosterSearch" type="search" placeholder="ابحث باسم الطالب أو الصف أو الفصل..." aria-label="البحث في قائمة الطلاب"><button class="btn" id="clearClassRosterSearch" type="button">مسح البحث</button></div>
 <div class="muted" id="classRosterSearchStatus">يمكنك البحث داخل سجل الطلاب أدناه.</div>
 </div><div><h1>إدارة الفصل</h1><div class="muted">قائمة الطلاب وتقسيم المجموعات ونقاط التنافس</div></div></div><div class="panel stack"><div class="grid"><label>اسم الطالب<input id="studentInput" placeholder="اسم الطالب"></label><label>الصف<select id="studentGrade"><option value="">غير محدد</option><option>الأول</option><option>الثاني</option><option>الثالث</option><option>الرابع</option><option>الخامس</option><option>السادس</option></select></label><label>الفصل<input id="studentSection" placeholder="مثال: 4/أ"></label></div><div class="row"><button class="btn primary" id="addStudent">إضافة طالب</button><button class="btn" id="exportRoster">تصدير كشف الطلاب CSV</button><label class="btn" for="importRoster">استيراد كشف CSV</label><input id="importRoster" type="file" accept=".csv,text/csv" style="display:none"></div><div class="muted">يمكن إدخال اسم الطالب والصف والفصل، أو استيراد كشف CSV بترتيب الأعمدة: اسم الطالب، الصف، الفصل.</div><div class="panel" style="background:#f8fbff"><b>سجل الطلاب المسجلين</b><div id="rosterList" class="stack" style="margin-top:8px"></div></div>
-<div class="panel stack" id="cloudClassroomPanel" style="margin-top:12px;border:1px solid #bfdbfe;background:#f8fbff">
+<div class="panel stack" id="unifiedStudentReport" style="margin-top:12px">
+ <div class="row" style="justify-content:space-between;align-items:center"><b>📊 التقرير الموحد للتلميذ</b><span class="badge">درجات + حضور</span></div>
+ <p class="muted">يجمع نتائج الاختبارات والألعاب التعليمية وسجل الحضور المحلي في تقرير واحد للفترة المحددة.</p>
+ <div class="row"><label style="min-width:220px;flex:1">التلميذ<select id="unifiedReportStudent"><option value="">اختر تلميذًا...</option></select></label><label>الشهر<input id="unifiedReportMonth" type="month"></label><button class="btn primary" id="buildUnifiedReport" type="button">عرض التقرير</button></div>
+ <div id="unifiedReportSummary" class="muted" role="status" aria-live="polite">اختر التلميذ والشهر ثم اعرض التقرير.</div><div id="unifiedReportBody"></div>
+ <div class="row"><button class="btn" id="exportUnifiedReport" type="button" disabled>تصدير التقرير CSV</button><button class="btn" id="printUnifiedReport" type="button" disabled>طباعة التقرير</button></div></div>
+ <div class="panel stack" id="cloudClassroomPanel" style="margin-top:12px;border:1px solid #bfdbfe;background:#f8fbff">
  <div class="row" style="justify-content:space-between;align-items:center"><b>☁️ الفصول والمزامنة السحابية</b><span class="badge">اختياري</span></div>
  <p class="muted">سجّل دخولك بحساب المعلم، ثم أنشئ فصلًا أو اختر فصلًا موجودًا. لا تنتقل أي بيانات تلقائيًا؛ استخدم أزرار المزامنة الصريحة.</p>
  <div class="grid"><label>البريد الإلكتروني<input id="cloudTeacherEmail" type="email" autocomplete="username" placeholder="teacher@example.com"></label><label>كلمة المرور<input id="cloudTeacherPassword" type="password" autocomplete="current-password" placeholder="كلمة المرور"></label></div>
@@ -892,6 +898,37 @@ function openLessonActivity(lessonIndex,activityIndex){const lesson=db.lessons[l
 renderAll();
 const cloud=$('cloudStatus');if(cloud){cloud.textContent=window.SmartboardCloud&&window.SmartboardCloud.configured()?'تم إدخال إعدادات Supabase. يلزم تطبيق ترحيلات قاعدة البيانات واختبار تسجيل الدخول.':'بانتظار إنشاء مشروع Supabase وإضافة عنوان المشروع والمفتاح العام.'}
 const net=$('networkStatus');function netState(){if(net){net.textContent=navigator.onLine?'متصل بالإنترنت':'غير متصل – وضع محلي';net.style.background=navigator.onLine?'#dcfce7':'#fef3c7';net.style.color=navigator.onLine?'#166534':'#92400e'}}window.addEventListener('online',netState);window.addEventListener('offline',netState);netState();
+
+/* Unified student report: local assessment results + attendance */
+(function initUnifiedStudentReport(){
+ const el=id=>document.getElementById(id);
+ const student=el('unifiedReportStudent'),month=el('unifiedReportMonth'),summary=el('unifiedReportSummary'),body=el('unifiedReportBody'),exportBtn=el('exportUnifiedReport'),printBtn=el('printUnifiedReport');
+ if(!student||!month||!summary||!body)return;
+ const now=new Date();month.value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+ function fillStudents(){const old=student.value;student.innerHTML='<option value="">اختر تلميذًا...</option>'+db.students.map(n=>'<option value="'+esc(n)+'">'+esc(n)+'</option>').join('');if(db.students.includes(old))student.value=old}
+ function build(){
+  const name=student.value,period=month.value;
+  if(!name||!period){summary.textContent='اختر التلميذ والشهر أولًا.';body.innerHTML='';exportBtn.disabled=true;printBtn.disabled=true;return}
+  const scores=(db.scores||[]).filter(x=>x.student===name&&String(x.dateISO||'').startsWith(period)).sort((a,b)=>String(a.dateISO||'').localeCompare(String(b.dateISO||'')));
+  const days=Object.keys(db.attendance||{}).filter(d=>d.startsWith(period)).sort(),att={present:0,absent:0,late:0,excused:0};
+  days.forEach(d=>{const v=db.attendance[d]?.[name];if(Object.prototype.hasOwnProperty.call(att,v))att[v]++});
+  const attendanceTotal=Object.values(att).reduce((a,b)=>a+b,0),earned=scores.reduce((a,x)=>a+(Number(x.score)||0),0),possible=scores.reduce((a,x)=>a+(Number(x.total)||0),0),pct=possible?Math.round(earned/possible*100):0;
+  summary.textContent='التلميذ: '+name+' · '+period+' · الاختبارات: '+scores.length+' · الدرجات: '+earned+'/'+possible+' ('+(possible?pct+'%':'—')+') · حاضر: '+att.present+' · غائب: '+att.absent+' · متأخر: '+att.late+' · بعذر: '+att.excused;
+  body.innerHTML='<div class="grid" style="margin:12px 0"><div class="panel"><b>نسبة التحصيل</b><div style="font-size:25px;font-weight:800">'+(possible?pct+'%':'—')+'</div></div><div class="panel"><b>أيام الحضور</b><div style="font-size:25px;font-weight:800">'+(att.present+att.late)+'</div></div><div class="panel"><b>إجمالي الغياب</b><div style="font-size:25px;font-weight:800">'+(att.absent+att.excused)+'</div></div></div><div style="overflow:auto"><table><thead><tr><th>التاريخ</th><th>الاختبار / النشاط</th><th>الدرجة</th><th>النسبة</th></tr></thead><tbody>'+(scores.map(x=>{const t=Number(x.total)||0,v=Number(x.score)||0;return '<tr><td>'+esc(x.dateISO||x.date||'—')+'</td><td>'+esc(x.skill||'اختبار')+'</td><td>'+v+' / '+t+'</td><td>'+(t?Math.round(v/t*100)+'%':'—')+'</td></tr>'}).join('')||'<tr><td colspan="4">لا توجد نتائج مسجلة خلال هذا الشهر.</td></tr>')+'</tbody></table></div><p class="muted">أيام تحتوي على سجل حضور: '+days.length+' · إجمالي حالات الحضور المسجلة: '+attendanceTotal+'</p>';
+  exportBtn.disabled=false;printBtn.disabled=false;
+ }
+ function exportCsv(){
+  const name=student.value,period=month.value;if(!name||!period)return;
+  const quote=v=>'"'+String(v??'').replace(/"/g,'""')+'"',rows=[['نوع السجل','التاريخ','البيان','الدرجة','النهاية','الحالة']];
+  (db.scores||[]).filter(x=>x.student===name&&String(x.dateISO||'').startsWith(period)).forEach(x=>rows.push(['نتيجة',x.dateISO||x.date||'',x.skill||'اختبار',x.score??'',x.total??'','']));
+  Object.keys(db.attendance||{}).filter(d=>d.startsWith(period)).sort().forEach(d=>{const v=db.attendance[d]?.[name];if(v)rows.push(['حضور',d,'الحضور والغياب','','',({present:'حاضر',absent:'غائب',late:'متأخر',excused:'غياب بعذر'})[v]||v])});
+  const blob=new Blob(['\ufeff'+rows.map(r=>r.map(quote).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='تقرير-'+name+'-'+period+'.csv';a.click();URL.revokeObjectURL(url);
+ }
+ fillStudents();el('buildUnifiedReport').addEventListener('click',build);student.addEventListener('change',build);month.addEventListener('change',build);exportBtn.addEventListener('click',exportCsv);
+ printBtn.addEventListener('click',()=>{const w=window.open('','_blank');if(!w)return;w.document.write('<html lang="ar" dir="rtl"><meta charset="utf-8"><title>تقرير التلميذ</title><style>body{font-family:Tahoma,Arial;padding:24px}table{width:100%;border-collapse:collapse}td,th{border:1px solid #999;padding:8px;text-align:right}</style><h2>التقرير الموحد للتلميذ</h2>'+summary.outerHTML+body.outerHTML+'</html>');w.document.close();w.focus();w.print()});
+ const observer=new MutationObserver(fillStudents);if(el('rosterList'))observer.observe(el('rosterList'),{childList:true,subtree:true});
+})();
+
 if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{const reg=await navigator.serviceWorker.register('/sw.js?v=8',{updateViaCache:'none'});await reg.update()}catch(e){console.warn('تعذر تحديث التخزين المؤقت:',e)}})}
 })();
 </script></body></html>
