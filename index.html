@@ -194,7 +194,24 @@ input,select,textarea{border-color:#d5deeb;border-radius:11px;padding:11px}
 .sticker-controls button{width:25px;height:25px;padding:0;border:0;border-radius:50%;background:#1d4ed8;color:white;font-size:14px;cursor:pointer;line-height:25px}
 .sticker-controls button[data-action="delete"]{background:#dc2626}
 .sticker-controls button[data-action="rotate"]{background:#0f766e}
-.geometry-builder{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px;margin:8px 0;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff;color:#1e3a8a}.geometry-builder strong{width:100%}.geometry-builder label{display:flex;align-items:center;gap:5px;font-size:13px}.geometry-builder input,.geometry-builder select{width:88px;max-width:28vw;padding:7px;border:1px solid #cbd5e1;border-radius:7px;background:white;color:#0f172a}.geometry-builder select{width:auto}.geometry-builder small{width:100%;color:#475569}.geometry-stats,.geometry-quiz{width:100%;padding:9px;border-radius:9px;background:#fff;border:1px solid #cbd5e1;color:#1e293b;font-size:13px;line-height:1.8}.geometry-quiz{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.geometry-quiz[hidden]{display:none}.geometry-quiz strong{width:100%}.geometry-quiz select{min-width:150px;padding:8px;border:1px solid #cbd5e1;border-radius:7px}.geometry-quiz span{font-weight:700;color:#0f766e}@media(max-width:600px){.geometry-builder{align-items:stretch}.geometry-builder label{flex:1}.geometry-builder button{flex:1}.geometry-builder select{flex:1}}.geometry-quiz{background:#f8fafc}@media(max-width:600px){.geometry-quiz select{flex:1;min-width:100%}}.fraction-lab{display:flex;flex-wrap:wrap;align-items:center;gap:8px;width:100%;padding:11px;border:1px solid var(--border,#cbd5e1);border-radius:12px;background:var(--panel,#fff);color:var(--text,#172554)}.fraction-lab>strong,.fraction-lab>small,.fraction-lab>#fractionResult,.fraction-lab>#fractionFeedback{width:100%}.fraction-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.fraction-controls label{display:flex;align-items:center;gap:4px}.fraction-controls input{width:62px;min-width:0;padding:7px;border:1px solid #cbd5e1;border-radius:7px}.fraction-controls select,.fraction-controls button{padding:7px;border:1px solid #cbd5e1;border-radius:7px;background:#f8fafc;color:#172554}.fraction-lab #fractionResult,.fraction-lab #fractionFeedback{font-weight:700;line-height:1.7}.fraction-lab small{color:#64748b}@media(max-width:600px){.fraction-controls{width:100%}.fraction-controls button{flex:1}.fraction-controls input{width:52px}}</style>
+.geometry-builder{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px;margin:8px 0;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff;color:#1e3a8a}.geometry-builder strong{width:100%}.geometry-builder label{display:flex;align-items:center;gap:5px;font-size:13px}.geometry-builder input,.geometry-builder select{width:88px;max-width:28vw;padding:7px;border:1px solid #cbd5e1;border-radius:7px;background:white;color:#0f172a}.geometry-builder select{width:auto}.geometry-builder small{width:100%;color:#475569}.geometry-stats,.geometry-quiz{width:100%;padding:9px;border-radius:9px;background:#fff;border:1px solid #cbd5e1;color:#1e293b;font-size:13px;line-height:1.8}.geometry-quiz{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.geometry-quiz[hidden]{display:none}.geometry-quiz strong{width:100%}.geometry-quiz select{min-width:150px;padding:8px;border:1px solid #cbd5e1;border-radius:7px}.geometry-quiz span{font-weight:700;color:#0f766e}@media(max-width:600px){.geometry-builder{align-items:stretch}.geometry-builder label{flex:1}.geometry-builder button{flex:1}.geometry-builder select{flex:1}}.geometry-quiz{background:#f8fafc}@media(max-width:600px){.geometry-quiz select{flex:1;min-width:100%}}.fraction-lab{display:flex;flex-wrap:wrap;align-items:center;gap:8px;width:100%;padding:11px;border:1px solid var(--border,#cbd5e1);border-radius:12px;background:var(--panel,#fff);color:var(--text,#172554)}.fraction-lab>strong,.fraction-lab>small,.fraction-lab>#fractionResult,.fraction-lab>#fractionFeedback{width:100%}.fraction-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.fraction-controls label{display:flex;align-items:center;gap:4px}.fraction-controls input{width:62px;min-width:0;padding:7px;border:1px solid #cbd5e1;border-radius:7px}.fraction-controls select,.fraction-controls button{padding:7px;border:1px solid #cbd5e1;border-radius:7px;background:#f8fafc;color:#172554}.fraction-lab #fractionResult,.fraction-lab #fractionFeedback{font-weight:700;line-height:1.7}.fraction-lab small{color:#64748b}@media(max-width:600px){.fraction-controls{width:100%}.fraction-controls button{flex:1}.fraction-controls input{width:52px}}
+/* أقسام جانبية مدمجة وقابلة للطي */
+#board .side-tool-section,#board .side-tool-subsection{margin:7px 0;border:1px solid #dbe5f1;border-radius:10px;background:#fff;overflow:hidden}
+#board .side-tool-section>summary,#board .side-tool-subsection>summary{display:flex;align-items:center;gap:7px;min-height:40px;padding:8px 10px;cursor:pointer;list-style:none;font-size:12px;font-weight:800;color:#243b5a;background:#f8fbff;user-select:none}
+#board .side-tool-section>summary::-webkit-details-marker,#board .side-tool-subsection>summary::-webkit-details-marker{display:none}
+#board .side-tool-section>summary::after,#board .side-tool-subsection>summary::after{content:'＋';margin-inline-start:auto;color:#64748b;font-size:16px}
+#board .side-tool-section[open]>summary::after,#board .side-tool-subsection[open]>summary::after{content:'−'}
+#board .side-tool-section[open]>summary{background:#edf4ff;border-bottom:1px solid #e5edf6}
+#board .side-tool-section>.row,#board .side-tool-section>.panel,#board .side-tool-section>.selection-tools{margin:6px;padding:7px;border:0;border-radius:8px;background:#fff;box-shadow:none}
+#board .side-tool-section .muted{font-size:11px;line-height:1.45}
+#board .side-tool-section button,#board .side-tool-subsection button{min-height:34px;font-size:11px}
+#board .side-tool-subsection>summary{min-height:36px;font-size:11px;background:#f8fafc}
+#board .side-tool-subsection> :not(summary){margin:6px}
+#boardTools .side-tool-subsection{display:block}
+#boardTools .side-tool-subsection>summary{position:sticky;top:0}
+#boardTools .side-tool-subsection[open]{padding-bottom:5px}
+
+</style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="/supabase-config.js"></script><script src="/supabase-client.js"></script>
 </head>
 <body>
@@ -993,6 +1010,35 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{co
   let node=toolbar;
   while(node&&node!==canvas){const next=node.nextElementSibling;side.appendChild(node);node=next;}
  }
+  // تحويل أدوات التحكم خارج شريط الرسم إلى أقسام جانبية قابلة للطي
+  const side=panel&&panel.querySelector('.board-side-tools');
+  if(side&&!side.dataset.sectionsBuilt){
+   const specs=[
+    {key:'selection',title:'▣ التحديد والنسخ',test:n=>n.classList.contains('selection-tools')},
+    {key:'text',title:'🔤 تنسيق النص وإدراج الوسائط',test:n=>!!n.querySelector('#boardTextFont,#insertImageBtn,#openCamera,#openYoutube,#openCalc')},
+    {key:'pages',title:'📄 الصفحات وقوالب الدروس',test:n=>!!n.querySelector('#boardTemplate,#applyTemplate,#startPresentation')},
+    {key:'style',title:'🎨 الألوان والخلفية وأدوات القلم',test:n=>!!n.querySelector('#ink,#size,#paper,#applyBoardBackground')},
+    {key:'files',title:'📥 الاستيراد والتصدير والطباعة',test:n=>!!n.querySelector('#pdfImport,#pptxImport,#exportBoardPdf')},
+    {key:'zoom',title:'🔍 تكبير مساحة العمل',test:n=>!!n.querySelector('#zoomOut,#boardZoom,#zoomIn')},
+    {key:'backgrounds',title:'🖼️ مكتبة الخلفيات',test:n=>n.id==='backgroundLibrary'||n.id==='customBackgroundPanel'},
+    {key:'stickers',title:'🌟 الملصقات والتشجيع',test:n=>n.id==='stickerLibrary'||n.id==='cheerBar'},
+    {key:'classroom',title:'🎯 أدوات العرض داخل الفصل',test:n=>n.id==='classroomEffects'}
+   ];
+   const buckets=specs.map(spec=>({spec,nodes:[]}));
+   [...side.children].forEach(node=>{
+    if(node.classList.contains('board-toolbar-shell'))return;
+    const b=buckets.find(x=>x.spec.test(node));
+    if(b)b.nodes.push(node);
+   });
+   buckets.forEach(b=>{
+    if(!b.nodes.length)return;
+    const d=document.createElement('details');d.className='side-tool-section';d.dataset.section=b.spec.key;
+    const s=document.createElement('summary');s.textContent=b.spec.title;d.appendChild(s);
+    b.nodes.forEach(n=>d.appendChild(n));side.appendChild(d);
+   });
+   side.dataset.sectionsBuilt='1';
+  }
+
  const groups=[
   {title:'✍️ الكتابة والتحديد',keys:['select','pen','marker','highlighter','eraser']},
   {title:'📐 الأشكال الهندسية',keys:['line','rect','circle','triangle','equilateral','arrow','dashed']},
@@ -1014,6 +1060,27 @@ if('serviceWorker' in navigator){window.addEventListener('load',async()=>{try{co
   shell.append(heading,buttons);tools.appendChild(shell);
  });
  tools.dataset.grouped='1';
+ // نقل عناصر الإعدادات المتبقية من صف طويل إلى مجموعات منسدلة
+ const innerGroups=[
+  {title:'📐 إعدادات الهندسة',ids:['geometryAngle','geometryBuilder','applyGeometry','resetGeometry','geometryQuizStart','geometryQuiz']},
+  {title:'🔤 النص والرموز والمعادلات',ids:['addTextElement','addEquationElement','math-palette','fractionLab','boardTextFont','boardTextSize','boardTextBold','boardTextUnderline','boardTextAlign','boardTextBg','boardTextBgToggle']},
+  {title:'🖼️ الصور والوسائط',ids:['insertImageBtn','boardImage','openCamera','openYoutube','openCalc']},
+  {title:'📑 إدارة صفحات السبورة',ids:['boardPan','undo','clearBoard','prevPage','pageIndicator','nextPage','newPage','deletePage']}
+ ];
+ const innerBuckets=innerGroups.map(g=>({spec:g,nodes:[]}));
+ [...tools.children].forEach(node=>{
+  if(node.classList.contains('tool-group')||node.matches('button[data-tool]'))return;
+  const ids=[node.id,...[...node.querySelectorAll('[id]')].map(x=>x.id)];
+  const bucket=innerBuckets.find(b=>b.spec.ids.some(id=>ids.includes(id)||(id==='math-palette'&&node.classList.contains('math-palette'))));
+  (bucket||innerBuckets[1]).nodes.push(node);
+ });
+ innerBuckets.forEach(b=>{
+  if(!b.nodes.length)return;
+  const d=document.createElement('details');d.className='side-tool-subsection';
+  const s=document.createElement('summary');s.textContent=b.spec.title;d.appendChild(s);
+  b.nodes.forEach(n=>d.appendChild(n));tools.appendChild(d);
+ });
+
  const fullscreen=document.createElement('button');fullscreen.type='button';fullscreen.id='boardFullscreen';fullscreen.className='btn';fullscreen.textContent='⛶ ملء الشاشة';
  const head=board.querySelector('.head');if(head)head.appendChild(fullscreen);
  fullscreen.addEventListener('click',async()=>{
