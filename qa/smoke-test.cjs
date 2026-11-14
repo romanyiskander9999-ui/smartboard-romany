@@ -1,0 +1,11 @@
+const fs = require('node:fs');
+const assert = require('node:assert/strict');
+const html = fs.readFileSync('index.html','utf8');
+const tools = fs.readFileSync('advanced-tools.js','utf8');
+const pkg = JSON.parse(fs.readFileSync('package.json','utf8'));
+for (const label of ['خطة AI','الرياضيات','الفيزياء','الكيمياء','الأحياء','الجغرافيا','اللغات','الأدب','الفنون','البرمجة','القوالب']) assert.ok(html.includes(label), 'missing subject board: '+label);
+for (const id of ['makeLesson','mathCalc','physCalc','elementSearch','geoCalc','makeQuiz']) assert.ok(tools.includes(id), 'missing advanced tool: '+id);
+assert.ok(pkg.build.files.includes('advanced-tools.js'), 'advanced tools must be packaged');
+assert.ok(pkg.build.nsis && pkg.build.win, 'Windows NSIS target must remain configured');
+assert.ok(html.includes('id="c"') && html.includes('id="undo"') && html.includes('id="newPage"'), 'core board controls missing');
+console.log('SchoolVerse SuperBoard smoke checks passed.');
