@@ -22,7 +22,7 @@ The GitHub Actions workflow builds the Windows installer and portable executable
 - Multiple pages, duplicate/delete, undo, and local persistence.
 - Image and text import, PNG/SVG export, and print-to-PDF workflow.
 - Eleven subject workspaces with insertable lesson outlines and templates.
-- Independent transparent drawing layers per page, with layer selection, visibility, opacity, and layer eraser.
+- Independent transparent drawing layers per page, with layer selection, visibility, opacity, and layer eraser.\n- Ideal projectile-motion simulation, labeled plant/animal cell schematic, and isolated JavaScript practice sandbox.\n- JSON backup and restore for board pages and layers.
 - Offline lesson planner, arithmetic and physics calculators, searchable starter element reference, geographic distance calculator, and quiz template builder.
 - Lesson timer and fullscreen mode.
 
