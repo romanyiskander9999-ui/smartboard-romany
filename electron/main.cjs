@@ -52,7 +52,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1440, height: 920, minWidth: 900, minHeight: 650,
     show: false, autoHideMenuBar: true, backgroundColor: "#eef2f8",
-    title: "السبورة الذكية",
+    title: "SchoolVerse SuperBoard",
     webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true, webviewTag: false }
   });
   win.once("ready-to-show", () => win.show());
@@ -77,7 +77,7 @@ app.whenReady().then(async () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 }).catch(error => {
-  console.error("Smartboard startup failed:", error);
+  console.error("SchoolVerse startup failed:", error);
   app.quit();
 });
 app.on("before-quit", () => { if (localServer) localServer.close(); });
