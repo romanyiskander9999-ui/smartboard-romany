@@ -1,10 +1,61 @@
 {
-"name":"schoolverse-superboard","version":"1.0.0","private":true,
-"description":"SchoolVerse SuperBoard - Arabic-first interactive classroom whiteboard",
-"main":"electron/main.cjs",
-"scripts":{"start":"electron .","dist:win":"electron-builder --win nsis portable --publish never","dist:win:nsis":"electron-builder --win nsis --publish never","dist:win:portable":"electron-builder --win portable --publish never"},
-"devDependencies":{"electron":"^39.0.0","electron-builder":"^26.0.12"},
-"build":{"appId":"com.alyanboa.schoolverse.superboard","productName":"SchoolVerse SuperBoard","asar":true,"directories":{"output":"dist"},"files":["index.html","electron/**/*","package.json"],
-"win":{"target":[{"target":"nsis","arch":["x64"]},{"target":"portable","arch":["x64"]}],"artifactName":"SchoolVerse-SuperBoard-${version}-${arch}.${ext}"},
-"nsis":{"oneClick":false,"allowToChangeInstallationDirectory":true,"perMachine":false,"createDesktopShortcut":true,"createStartMenuShortcut":true,"shortcutName":"SchoolVerse SuperBoard","deleteAppDataOnUninstall":false},
-"portable":{"artifactName":"SchoolVerse-SuperBoard-Portable-${version}-${arch}.${ext}"}}}
+  "name": "schoolverse-superboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SchoolVerse SuperBoard - Arabic-first interactive classroom whiteboard",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win nsis portable --publish never",
+    "dist:win:nsis": "electron-builder --win nsis --publish never",
+    "dist:win:portable": "electron-builder --win portable --publish never",
+    "test:smoke": "node qa/smoke-test.cjs"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.alyanboa.schoolverse.superboard",
+    "productName": "SchoolVerse SuperBoard",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "advanced-tools.js",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "SchoolVerse-SuperBoard-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SchoolVerse SuperBoard",
+      "deleteAppDataOnUninstall": false
+    },
+    "portable": {
+      "artifactName": "SchoolVerse-SuperBoard-Portable-${version}-${arch}.${ext}"
+    }
+  }
+}
