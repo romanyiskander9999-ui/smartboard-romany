@@ -38,4 +38,4 @@ function activate(id){let d=defs.find(z=>z[0]===id);$('board').classList.toggle(
 let nav=$('nav'),home=document.createElement('button');home.textContent='🖊 السبورة الرئيسية';home.dataset.id='board';home.onclick=()=>activate('board');nav.append(home);defs.forEach(d=>{let b=document.createElement('button');b.textContent=d[2]+' '+d[1];b.dataset.id=d[0];b.onclick=()=>activate(d[0]);nav.append(b)});
 load();render();activate('board');
 })();
-</script></body></html>
+</script><script src="advanced-tools.js"></script></body></html>
