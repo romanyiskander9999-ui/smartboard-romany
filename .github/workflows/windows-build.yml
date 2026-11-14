@@ -28,6 +28,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: SchoolVerse-SuperBoard-Windows
-          path: dist/*
+          path: |
+            dist/SchoolVerse-SuperBoard-*-x64.exe
+            dist/*.blockmap
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30
