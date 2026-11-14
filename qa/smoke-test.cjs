@@ -4,7 +4,7 @@ const html = fs.readFileSync('index.html','utf8');
 const tools = fs.readFileSync('advanced-tools.js','utf8');
 const pkg = JSON.parse(fs.readFileSync('package.json','utf8'));
 for (const label of ['خطة AI','الرياضيات','الفيزياء','الكيمياء','الأحياء','الجغرافيا','اللغات','الأدب','الفنون','البرمجة','القوالب']) assert.ok(html.includes(label), 'missing subject board: '+label);
-for (const id of ['lm','mc','pc','es','gc','qm','layerAdd','layerEdit','layerVisible','layerDelete']) assert.ok(tools.includes('id=\''+id+'\''), 'missing advanced tool: '+id);
+for (const id of ['lm','mc','pc','es','gc','qm','layerAdd','layerEdit','layerVisible','layerDelete','simRun','cellShow','codeRun','backupOut','backupIn']) assert.ok(tools.includes('id=\''+id+'\''), 'missing advanced tool: '+id);
 assert.ok(html.includes('id="c"') && html.includes('id="undo"') && html.includes('id="newPage"') && html.includes('data-t="select"'), 'core board controls missing');
 assert.ok(html.includes('advanced-tools.js'), 'advanced tools script not loaded');
 assert.ok(pkg.build.files.includes('advanced-tools.js'), 'advanced tools must be packaged');
