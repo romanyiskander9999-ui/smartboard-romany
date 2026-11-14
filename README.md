@@ -13,18 +13,19 @@ Arabic-first interactive classroom whiteboard for Windows, built with Electron.
 - Both packages: `npm run dist:win`
 
 ## Automated checks
-Run `npm run test:smoke` to verify the 11 subject workspaces, core board controls, advanced tool entry points, independent layers, and Windows packaging configuration.
+Run `npm run test:smoke` to check the subject workspaces, core controls, advanced tools, layers, and Windows packaging configuration.
+The GitHub Actions workflow builds the Windows installer and portable executable on relevant pushes or manual dispatch. Download packages from the workflow run's Artifacts section.
 
-The GitHub Actions workflow builds the Windows installer and portable executable on pushes affecting the app or when manually dispatched. Download generated artifacts from the workflow run's Artifacts section.
-
-## Implemented
-- Pen, highlighter, eraser, line, rectangle, circle, triangle, and text tools.
+## Implemented in this release
+- Canvas selection/move, pen, highlighter, eraser, line, rectangle, circle, triangle, and text.
 - Multiple pages, duplicate/delete, undo, and local persistence.
-- Image and text import, PNG/SVG export, and print-to-PDF workflow.
+- Image and text import, PNG/SVG export, and print-to-PDF for the current page.
 - Eleven subject workspaces with insertable lesson outlines and templates.
-- Independent transparent drawing layers per page, with layer selection, visibility, opacity, and layer eraser.\n- Ideal projectile-motion simulation, labeled plant/animal cell schematic, and isolated JavaScript practice sandbox.\n- JSON backup and restore for board pages and layers.
-- Offline lesson planner, arithmetic and physics calculators, searchable starter element reference, geographic distance calculator, and quiz template builder.
+- Independent transparent drawing layers per page, with layer selection, visibility, opacity, and layer eraser.
+- Offline lesson planner, arithmetic and physics calculators, searchable starter element reference, and geographic distance calculator.
+- Ideal projectile-motion simulation, labeled plant/animal cell schematic, and isolated JavaScript practice sandbox.
+- Editable quiz template builder and JSON backup/restore for board pages and layers.
 - Lesson timer and fullscreen mode.
 
 ## Not yet implemented
-AI-generated lesson content, full periodic table with detailed properties, real-time maps, advanced interactive simulations, 3D anatomy, object selection/movement on the base canvas, cloud synchronization, user accounts, collaboration, and full curriculum alignment. The lesson planner and quiz builder are local templates, not generative AI.
+AI-generated lesson content, a complete 118-element reference with detailed properties, real-time maps, advanced scientific simulations, 3D anatomy, cloud synchronization, user accounts, collaboration, and full Egyptian curriculum alignment. The lesson planner and quiz builder are local templates, not generative AI. The chemistry element lookup is a starter subset, not a complete periodic table.
