@@ -1,1 +1,23 @@
-# SchoolVerse SuperBoard\n\nArabic-first interactive classroom whiteboard for Windows.\n\n## Run\n- Install Node.js LTS\n- Run `npm install`\n- Run `npm start`\n\n## Windows builds\n- NSIS: `npm run dist:win:nsis`\n- Portable: `npm run dist:win:portable`\n- Both: `npm run dist:win`\n\n## Implemented in this foundation\n- Drawing tools: pen, marker, eraser, line, rectangle, circle, triangle, text.\n- Multiple pages, duplicate/delete, undo, local browser storage.\n- Image and text import, PNG/SVG export, print-to-PDF workflow.\n- Eleven subject workspaces, insertable lesson outlines, timer and fullscreen.\n\nAI generation, advanced scientific simulations, live maps, 3D models and cloud synchronization are not yet integrated.
+# SchoolVerse SuperBoard
+
+Arabic-first interactive classroom whiteboard for Windows.
+
+## Run
+- Install Node.js LTS.
+- Run `npm install`.
+- Run `npm start`.
+
+## Windows builds
+- NSIS installer: `npm run dist:win:nsis`.
+- Portable executable: `npm run dist:win:portable`.
+- Both targets: `npm run dist:win`.
+
+## Implemented foundation
+- Canvas tools: pen, marker, eraser, line, rectangle, circle, triangle, and text.
+- Multiple pages, duplicate/delete, undo, and local browser storage.
+- Image and text import, PNG/SVG export, and print-to-PDF workflow.
+- Eleven subject workspaces with insertable lesson outlines and templates.
+- Lesson timer and fullscreen mode.
+
+## Not yet integrated
+AI generation, advanced scientific simulations, live maps, 3D models, cloud synchronization, and automated assessment are not part of this first foundation release.
