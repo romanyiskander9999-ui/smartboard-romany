@@ -1,0 +1,1 @@
+(()=>{const nav=document.getElementById('nav');const b=document.createElement('button');b.textContent='🧰 أدوات إضافية';nav.append(b);b.onclick=()=>alert('سيتم فتح المختبر بعد تحميل الأدوات');})();
