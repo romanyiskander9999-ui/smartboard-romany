@@ -14,7 +14,7 @@ assert.ok(html.includes('id="c"') && html.includes('id="undo"') && html.includes
 assert.ok(html.includes('advanced-tools.js'), 'advanced tools script not loaded');
 assert.ok(pkg.build.files.includes('advanced-tools.js') && pkg.build.files.some(x=>x.includes('electron')), 'application files must be packaged');
 assert.ok(pkg.build.nsis && pkg.build.win, 'Windows NSIS target must remain configured');
-assert.ok(tools.includes('function calculateExpression') && tools.includes('worker-src blob:') && tools.includes('worker.terminate()'), 'safe calculator or timed coding worker missing');
+assert.ok(tools.includes('function calculateExpression') && tools.includes('worker-src blob:') && tools.includes('worker.terminate()') && tools.includes('encodedCode=btoa'), 'safe calculator or timed coding worker missing');
 assert.ok(tools.includes('function composeBoard') && tools.includes('saveBoardPdf'), 'layer-aware export or desktop PDF bridge missing');
 assert.ok(main.includes('schoolverse:save-board-pdf') && main.includes('printToPDF') && main.includes('preload.cjs'), 'native PDF IPC integration missing');
 assert.ok(preload.includes('contextBridge.exposeInMainWorld') && preload.includes('schoolverse:save-board-pdf'), 'secure preload bridge missing');
