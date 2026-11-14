@@ -21,9 +21,9 @@ A GitHub Actions workflow also builds the Windows installer and portable executa
 - Canvas pen, highlighter, eraser, line, rectangle, circle, triangle, and text.
 - Multiple pages, duplicate/delete, undo, local persistence.
 - Image and text import, PNG/SVG export, print-to-PDF workflow.
-- Eleven subject workspaces with insertable lesson outlines and templates.
+- Eleven subject workspaces with insertable lesson outlines and templates.\n- Independent transparent drawing layers per page, with layer selection, visibility, opacity, and layer eraser.\n- Offline lesson planner, arithmetic and physics calculators, searchable starter element reference, geographic distance calculator, and quiz template builder.
 - Timer and fullscreen mode.
 - Offline lesson planner, arithmetic calculator, physics formula calculator, searchable starter element reference, geographic distance calculator, and quiz template builder.
 
 ## Not yet implemented
-AI-generated lesson content, full periodic table with detailed properties, real-time maps, advanced interactive simulations, 3D anatomy, multi-layer object editor, cloud synchronization, user accounts, collaboration, and full curriculum alignment. The lesson planner and quiz builder are local templates, not generative AI.
+AI-generated lesson content, full periodic table with detailed properties, real-time maps, advanced interactive simulations, 3D anatomy, object selection/move on the base canvas, cloud synchronization, user accounts, collaboration, and full curriculum alignment. The lesson planner and quiz builder are local templates, not generative AI.
