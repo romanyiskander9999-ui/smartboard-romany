@@ -1,4 +1,4 @@
-const { app, BrowserWindow, shell, Menu } = require("electron");
+const { app, BrowserWindow, shell, Menu, ipcMain, dialog } = require("electron");
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
@@ -16,6 +16,29 @@ const MIME = {
 };
 let localServer;
 let localOrigin;
+
+ipcMain.handle("schoolverse:save-board-pdf", async (event, pngDataUrl) => {
+  const senderUrl = event.senderFrame?.url;
+  let senderOrigin = "";
+  try { senderOrigin = new URL(senderUrl).origin; } catch { /* rejected below */ }
+  if (!localOrigin || senderOrigin !== localOrigin) throw new Error("طلب غير مصرح به");
+  if (typeof pngDataUrl !== "string" || pngDataUrl.length > 35000000) throw new Error("صورة الصفحة غير صالحة أو كبيرة جدًا");
+  const match = /^data:image\/png;base64,([A-Za-z0-9+/=]+)$/.exec(pngDataUrl);
+  if (!match) throw new Error("صيغة صورة PNG غير صالحة");
+  const parent = BrowserWindow.fromWebContents(event.sender);
+  const choice = await dialog.showSaveDialog(parent || undefined, { title: "حفظ السبورة بصيغة PDF", defaultPath: path.join(app.getPath("documents"), "SchoolVerse-Board.pdf"), filters: [{ name: "PDF", extensions: ["pdf"] }] });
+  if (choice.canceled || !choice.filePath) return { canceled: true };
+  const html = "<!doctype html><html><head><meta charset=\"utf-8\"><meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; img-src data:; style-src 'unsafe-inline'\"><style>@page{size:A4 landscape;margin:8mm}html,body{margin:0;padding:0}img{width:100%;height:auto;object-fit:contain}</style></head><body><img src=\"data:image/png;base64," + match[1] + "\"></body></html>";
+  const printWindow = new BrowserWindow({ show: false, webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true } });
+  try {
+    await printWindow.loadURL("data:text/html;charset=utf-8," + encodeURIComponent(html));
+    const pdf = await printWindow.webContents.printToPDF({ pageSize: "A4", landscape: true, printBackground: true, margins: { top: 0.25, bottom: 0.25, left: 0.25, right: 0.25 } });
+    await fs.promises.writeFile(choice.filePath, pdf);
+    return { canceled: false, filePath: choice.filePath };
+  } finally { if (!printWindow.isDestroyed()) printWindow.close(); }
+});
+
+
 
 function startLocalServer() {
   return new Promise((resolve, reject) => {
@@ -53,7 +76,7 @@ function createWindow() {
     width: 1440, height: 920, minWidth: 900, minHeight: 650,
     show: false, autoHideMenuBar: true, backgroundColor: "#eef2f8",
     title: "SchoolVerse SuperBoard",
-    webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true, webviewTag: false }
+    webPreferences: { preload: path.join(__dirname, "preload.cjs"), contextIsolation: true, nodeIntegration: false, sandbox: true, webviewTag: false }
   });
   win.once("ready-to-show", () => win.show());
   win.webContents.setWindowOpenHandler(({ url }) => {
