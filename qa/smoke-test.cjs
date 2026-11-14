@@ -1,12 +1,25 @@
 const fs = require('node:fs');
 const assert = require('node:assert/strict');
+const vm = require('node:vm');
+const { execFileSync } = require('node:child_process');
 const html = fs.readFileSync('index.html','utf8');
 const tools = fs.readFileSync('advanced-tools.js','utf8');
+const main = fs.readFileSync('electron/main.cjs','utf8');
+const preload = fs.readFileSync('electron/preload.cjs','utf8');
 const pkg = JSON.parse(fs.readFileSync('package.json','utf8'));
+
 for (const label of ['خطة AI','الرياضيات','الفيزياء','الكيمياء','الأحياء','الجغرافيا','اللغات','الأدب','الفنون','البرمجة','القوالب']) assert.ok(html.includes(label), 'missing subject board: '+label);
-for (const id of ['lm','mc','pc','es','gc','qm','layerAdd','layerEdit','layerVisible','layerDelete','simRun','cellShow','codeRun','backupOut','backupIn']) assert.ok(tools.includes('id=\''+id+'\'') || tools.includes('id=\"'+id+'\"'), 'missing advanced tool: '+id);
+for (const id of ['lm','mc','pc','es','gc','qm','layerAdd','layerEdit','layerVisible','layerDelete','simRun','cellShow','codeRun','backupOut','backupIn']) assert.ok(tools.includes('id=\\''+id+'\\'') || tools.includes('id=\\"'+id+'\\"'), 'missing advanced tool: '+id);
 assert.ok(html.includes('id="c"') && html.includes('id="undo"') && html.includes('id="newPage"') && html.includes('data-t="select"'), 'core board controls missing');
 assert.ok(html.includes('advanced-tools.js'), 'advanced tools script not loaded');
-assert.ok(pkg.build.files.includes('advanced-tools.js'), 'advanced tools must be packaged');
+assert.ok(pkg.build.files.includes('advanced-tools.js') && pkg.build.files.some(x=>x.includes('electron')), 'application files must be packaged');
 assert.ok(pkg.build.nsis && pkg.build.win, 'Windows NSIS target must remain configured');
-console.log('SchoolVerse SuperBoard smoke checks passed.');
+assert.ok(tools.includes('function calculateExpression') && tools.includes('worker-src blob:') && tools.includes('worker.terminate()'), 'safe calculator or timed coding worker missing');
+assert.ok(tools.includes('function composeBoard') && tools.includes('saveBoardPdf'), 'layer-aware export or desktop PDF bridge missing');
+assert.ok(main.includes('schoolverse:save-board-pdf') && main.includes('printToPDF') && main.includes('preload.cjs'), 'native PDF IPC integration missing');
+assert.ok(preload.includes('contextBridge.exposeInMainWorld') && preload.includes('schoolverse:save-board-pdf'), 'secure preload bridge missing');
+for (const file of ['advanced-tools.js','electron/main.cjs','electron/preload.cjs']) execFileSync(process.execPath,['--check',file],{stdio:'inherit'});
+const inlineScript = html.match(/<script>([\\s\\S]*?)<\\/script>/);
+assert.ok(inlineScript, 'main application script missing');
+new vm.Script(inlineScript[1], { filename: 'index.inline.js' });
+console.log('SchoolVerse SuperBoard smoke checks passed (features, exports, Electron bridge, and JS syntax).');
