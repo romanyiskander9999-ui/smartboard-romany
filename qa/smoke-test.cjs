@@ -18,6 +18,14 @@ assert.ok(tools.includes('function calculateExpression') && tools.includes('work
 assert.ok(tools.includes('function composeBoard') && tools.includes('saveBoardPdf'), 'layer-aware export or desktop PDF bridge missing');
 assert.ok(main.includes('schoolverse:save-board-pdf') && main.includes('printToPDF') && main.includes('preload.cjs'), 'native PDF IPC integration missing');
 assert.ok(preload.includes('contextBridge.exposeInMainWorld') && preload.includes('schoolverse:save-board-pdf'), 'secure preload bridge missing');
+const calcStart = tools.indexOf('function calculateExpression(');
+const calcEnd = tools.indexOf(";$(\'mc\').onclick", calcStart);
+assert.ok(calcStart >= 0 && calcEnd > calcStart, 'calculator parser source missing');
+const calculateExpression = vm.runInNewContext('(' + tools.slice(calcStart, calcEnd) + ')');
+assert.equal(calculateExpression('2+3*4'), 14, 'operator precedence failed');
+assert.equal(calculateExpression('(2+3)*4'), 20, 'parentheses failed');
+assert.equal(calculateExpression('10%4'), 2, 'modulo failed');
+assert.throws(() => calculateExpression('2/0'), 'division by zero must be rejected');
 for (const file of ['advanced-tools.js','electron/main.cjs','electron/preload.cjs']) execFileSync(process.execPath,['--check',file],{stdio:'inherit'});
 const inlineScript = html.match(/<script>([\s\S]*?)<\/script>/);
 assert.ok(inlineScript, 'main application script missing');
