@@ -7,7 +7,7 @@ const data={plan:[['خطة درس','عنوان الدرس: ____\nالأهداف:
 const $=id=>document.getElementById(id),c=$('c'),x=c.getContext('2d'),paper=$('paper');let pages=[null],idx=0,tool='pen',down=false,start,last,undo=[],seconds=0,tick=null,selection=null,movingSelection=false,selectionOffset=null,selectionBase=null;
 function persist(){try{pages[idx]=c.toDataURL();localStorage.setItem('svsb-pages',JSON.stringify({pages,idx}))}catch(e){}renderPages()}
 function load(){try{const v=JSON.parse(localStorage.getItem('svsb-pages'));if(v&&v.pages?.length){pages=v.pages;idx=Math.min(v.idx||0,pages.length-1)}}catch(e){}}
-function render(){x.clearRect(0,0,c.width,c.height);let src=pages[idx];if(src){let im=new Image();im.onload=()=>x.drawImage(im,0,0);im.src=src}undo=[];$('pageNo').textContent='صفحة '+(idx+1);$('prev').disabled=idx===0;$('next').disabled=idx===pages.length-1;renderPages()}
+function render(){selection=null;movingSelection=false;selectionBase=null;x.clearRect(0,0,c.width,c.height);let src=pages[idx];if(src){let im=new Image();im.onload=()=>x.drawImage(im,0,0);im.src=src}undo=[];$('pageNo').textContent='صفحة '+(idx+1);$('prev').disabled=idx===0;$('next').disabled=idx===pages.length-1;renderPages()}
 function renderPages(){$('pages').innerHTML='';pages.forEach((p,i)=>{let b=document.createElement('button');b.textContent='صفحة '+(i+1);b.className=i===idx?'active':'';b.onclick=()=>switchPage(i);$('pages').append(b)})}
 function switchPage(i){persist();idx=i;render()}
 function snap(){undo.push(c.toDataURL());if(undo.length>30)undo.shift()}
