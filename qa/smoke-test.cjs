@@ -25,7 +25,7 @@ const calculateExpression = vm.runInNewContext('(' + tools.slice(calcStart, calc
 assert.equal(calculateExpression('2+3*4'), 14, 'operator precedence failed');
 assert.equal(calculateExpression('(2+3)*4'), 20, 'parentheses failed');
 assert.equal(calculateExpression('10%4'), 2, 'modulo failed');
-assert.throws(() => calculateExpression('2/0'), 'division by zero must be rejected');
+assert.throws(() => calculateExpression('2/0'));
 for (const file of ['advanced-tools.js','electron/main.cjs','electron/preload.cjs']) execFileSync(process.execPath,['--check',file],{stdio:'inherit'});
 const inlineScript = html.match(/<script>([\s\S]*?)<\/script>/);
 assert.ok(inlineScript, 'main application script missing');
