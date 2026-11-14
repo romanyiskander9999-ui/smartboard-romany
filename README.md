@@ -1,2 +1,1 @@
-# smartboard-romany
-smartboard
+# SchoolVerse SuperBoard\n\nArabic-first interactive classroom whiteboard for Windows.\n\n## Run\n- Install Node.js LTS\n- Run `npm install`\n- Run `npm start`\n\n## Windows builds\n- NSIS: `npm run dist:win:nsis`\n- Portable: `npm run dist:win:portable`\n- Both: `npm run dist:win`\n\n## Implemented in this foundation\n- Drawing tools: pen, marker, eraser, line, rectangle, circle, triangle, text.\n- Multiple pages, duplicate/delete, undo, local browser storage.\n- Image and text import, PNG/SVG export, print-to-PDF workflow.\n- Eleven subject workspaces, insertable lesson outlines, timer and fullscreen.\n\nAI generation, advanced scientific simulations, live maps, 3D models and cloud synchronization are not yet integrated.
