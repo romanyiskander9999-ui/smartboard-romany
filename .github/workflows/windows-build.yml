@@ -9,7 +9,7 @@ on:
       - "electron/**"
       - "package.json"
       - "qa/**"
-      - ".github/workflows/build.yml"
+      - ".github/workflows/windows-build.yml"
 jobs:
   windows:
     runs-on: windows-latest
@@ -18,7 +18,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
       - name: Install dependencies
         run: npm install
       - name: Run smoke checks
